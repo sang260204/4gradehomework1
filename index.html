@@ -623,17 +623,17 @@
         }
 
         function speakSentence(text) {
-            // 카카오톡 및 모바일 브라우저 호환성을 위한 음성 출력 안전 장치 적용
-            if ('speechSynthesis' in window) {
-                window.speechSynthesis.cancel(); // 기존 대기중인 음성 초기화
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.85;
-                
-                // 모바일에서 음성 목록이 로드되지 않아 발생하는 오류 방지
-                window.speechSynthesis.speak(utterance);
-            } else {
-                alert("음성 출력을 지원하지 않는 환경입니다.");
+            // 경고창 코드를 완전히 제거하고 모바일 브라우저/카카오톡 인앱창에서 안전하게 실행되도록 수정
+            try {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'en-US';
+                    utterance.rate = 0.85;
+                    window.speechSynthesis.speak(utterance);
+                }
+            } catch (e) {
+                console.log("음성 출력 예외 발생 무시:", e);
             }
         }
 
@@ -660,7 +660,6 @@
             try {
                 recognition.start();
             } catch (err) {
-                // 이미 실행 중이거나 차단된 경우 모바일에서 튕기지 않고 바로 보너스 지급 처리
                 playSound('correct');
                 btn.innerText = "✨ 완료! +30점!";
                 btn.classList.replace('bg-rose-500', 'bg-emerald-600');
@@ -680,7 +679,6 @@
             };
 
             recognition.onerror = function(event) {
-                // 에러 발생 시 강제 종료 대신 부드럽게 완료 처리하여 아이들이 막히지 않도록 함
                 playSound('correct');
                 btn.innerText = "✨ 확인 완료! +30점!";
                 btn.classList.replace('bg-rose-500', 'bg-emerald-600');
@@ -891,7 +889,7 @@
             `;
         }
 
-        function checkQuizAnswer(selected, correct) {
+    function checkQuizAnswer(selected, correct) {
             if (selected === correct) {
                 playSound('correct');
                 state.points += 40;
@@ -953,3 +951,4 @@
     </script>
 </body>
 </html>
+```eof
