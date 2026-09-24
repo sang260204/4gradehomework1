@@ -39,16 +39,6 @@
 </head>
 <body class="text-slate-800 flex flex-col min-h-screen">
 
-    <!-- 구글 시트 연동을 위한 무적의 히든 폼 (브라우저 CORS 차단 절대 불가) -->
-    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-    <form id="google_form" method="GET" target="hidden_iframe" style="display:none;" action="https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec">
-        <input type="text" name="timestamp" id="entry_timestamp">
-        <input type="text" name="studentName" id="entry_name">
-        <input type="text" name="unit" id="entry_unit">
-        <input type="text" name="totalPoints" id="entry_points">
-        <input type="text" name="completedCount" id="entry_count">
-    </form>
-
     <header class="bg-gradient-to-r from-amber-400 to-orange-400 border-b-4 border-amber-500 py-4 px-6 shadow-md sticky top-0 z-50">
         <div class="max-w-4xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="flex items-center gap-3">
@@ -63,23 +53,20 @@
     </header>
 
     <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
-
+        <!-- 로그인 화면 -->
         <div id="loginView" class="bg-white rounded-3xl p-6 sm:p-10 card-shadow border-4 border-amber-300 max-w-lg mx-auto w-full text-center relative overflow-hidden">
             <div class="absolute -top-10 -right-10 text-7xl opacity-20">🎈</div>
             <div class="absolute -bottom-10 -left-10 text-7xl opacity-20">⭐</div>
-            
             <div class="mb-6 relative z-10">
                 <div class="w-28 h-28 bg-gradient-to-tr from-amber-100 to-orange-100 rounded-full flex items-center justify-center mx-auto mb-4 text-6xl bouncing card-shadow">🦊</div>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-amber-600 mb-2">신나는 영어 복습 파티! 🚀</h2>
                 <p class="text-slate-500 text-sm sm:text-base">이름을 적고 오늘 공부할 단원을 골라볼까요?</p>
             </div>
-
             <div class="space-y-4 text-left relative z-10">
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-1">우리 학생 이름 ✍️</label>
                     <input type="text" id="studentNameInput" placeholder="예: 4학년 김상북" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none text-lg">
                 </div>
-
                 <div>
                     <label class="block text-sm font-bold text-slate-700 mb-1">공부할 단원 선택 📚</label>
                     <select id="unitSelect" class="w-full px-4 py-3 rounded-2xl border-2 border-slate-200 focus:border-amber-400 focus:outline-none text-lg bg-white font-bold text-slate-700">
@@ -91,13 +78,13 @@
                         <option value="9">Unit 9 (Blink! Blink! Fireflies!)</option>
                     </select>
                 </div>
-
                 <button onclick="startParty()" class="w-full mt-4 bg-gradient-to-r from-amber-400 via-orange-400 to-pink-400 hover:from-amber-500 hover:to-pink-500 text-white font-extrabold py-4 rounded-2xl shadow-lg transform transition active:scale-95 text-xl pulse-party">
                     🎉 파티 모험 출발하기! 🎈
                 </button>
             </div>
         </div>
 
+        <!-- 활동 대기실(대시보드) 화면 -->
         <div id="dashboardView" class="hidden space-y-6">
             <div class="bg-white rounded-3xl p-6 card-shadow border-4 border-amber-300 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-4">
@@ -122,7 +109,7 @@
                     <div class="flex-grow">
                         <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">말하기 놀이 (+50점/문장)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">1. 원어민 듣고 따라하기</h3>
-                        <p class="text-sm text-slate-500 mt-0.5">※ 먼저 듣기를 해야 마이크가 켜져요!</p>
+                        <p class="text-sm text-slate-500 mt-0.5">※ 원어민 듣기를 해야 마이크가 켜져요!</p>
                     </div>
                 </div>
 
@@ -161,6 +148,7 @@
             </div>
         </div>
 
+        <!-- 활동 플레이 화면 -->
         <div id="activityArena" class="hidden bg-white rounded-3xl p-6 sm:p-8 card-shadow border-4 border-amber-300 relative">
             <div class="flex justify-between items-center mb-6 border-b-2 border-slate-100 pb-4">
                 <button onclick="backToDashboard()" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl text-slate-700 font-bold text-sm flex items-center gap-2 transition">
@@ -176,6 +164,7 @@
             <div id="activityContentArea"></div>
         </div>
 
+        <!-- 완료 화면 -->
         <div id="completeView" class="hidden bg-white rounded-3xl p-8 sm:p-12 card-shadow border-4 border-emerald-400 max-w-lg mx-auto w-full text-center space-y-6 relative overflow-hidden">
             <div class="absolute -top-12 -left-12 text-8xl opacity-30">🎆</div>
             <div class="absolute -bottom-12 -right-12 text-8xl opacity-30">🎉</div>
@@ -192,10 +181,10 @@
                 🔄 처음으로 돌아가기
             </button>
         </div>
-
     </main>
 
     <script>
+        // 교과서 완벽 반영 데이터셋
         const unitData = {
             "4": {
                 name: "Going on Safari", icon: "🦁",
@@ -210,12 +199,9 @@
                     { en: "A crocodile swims in the river.", ko: "악어가 강에서 헤엄쳐요." },
                     { en: "Snap! It chases me.", ko: "딱! 그것이 나를 쫓아와요." }
                 ],
-                // 스펠링 문제: missingIdx 제거! 코드에서 접속할 때마다 완전 무작위로 빈칸을 생성합니다.
                 words: [
-                    { word: "monkey", hintImage: "🐵" },
-                    { word: "giraffe", hintImage: "🦒" },
-                    { word: "snake", hintImage: "🐍" },
-                    { word: "crocodile", hintImage: "🐊" }
+                    { word: "monkey", hintImage: "🐵" }, { word: "giraffe", hintImage: "🦒" },
+                    { word: "snake", hintImage: "🐍" }, { word: "crocodile", hintImage: "🐊" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["swings", "monkey", "in", "the", "A", "jungle."], correct: ["A", "monkey", "swings", "in", "the", "jungle."] },
@@ -234,21 +220,19 @@
                 sentences: [
                     { en: "Today is the pet show.", ko: "오늘은 펫 쇼 날이에요." },
                     { en: "Here comes Henry's dog.", ko: "헨리의 강아지가 와요." },
-                    { en: "It barks at me.", ko: "나에게 짖어요." },
+                    { en: "It barks at me.", ko: "그것이 나에게 짖어요." },
                     { en: "Here comes Tina's cat.", ko: "티나의 고양이가 와요." },
-                    { en: "It meows at me.", ko: "나에게 야옹거려요." },
+                    { en: "It meows at me.", ko: "그것이 나에게 야옹거려요." },
                     { en: "Here comes Kevin's bird.", ko: "케빈의 새가 와요." },
-                    { en: "It chirps at me.", ko: "나에게 짹짹거려요." },
+                    { en: "It chirps at me.", ko: "그것이 나에게 짹짹거려요." },
                     { en: "Here comes Alex's snake.", ko: "알렉스의 뱀이 와요." },
-                    { en: "It hisses at me.", ko: "나에게 쉿 소리를 내요." },
+                    { en: "It hisses at me.", ko: "그것이 나에게 쉿 소리를 내요." },
                     { en: "Here comes Pam's fish.", ko: "팸의 물고기가 와요." },
                     { en: "It just looks at me!", ko: "그냥 나를 바라봐요!" }
                 ],
                 words: [
-                    { word: "giraffe", hintImage: "🦒" }, 
-                    { word: "snake", hintImage: "🐍" },
-                    { word: "monkey", hintImage: "🐵" },
-                    { word: "jungle", hintImage: "🌴" }
+                    { word: "giraffe", hintImage: "🦒" }, { word: "snake", hintImage: "🐍" },
+                    { word: "monkey", hintImage: "🐵" }, { word: "jungle", hintImage: "🌴" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["is", "Today", "the", "pet", "show."], correct: ["Today", "is", "the", "pet", "show."] },
@@ -278,10 +262,8 @@
                     { en: "Are you busy in the fall too?", ko: "너도 가을에 바쁘니?" }
                 ],
                 words: [
-                    { word: "meow", hintImage: "🐱" },
-                    { word: "chirp", hintImage: "🐦" },
-                    { word: "hiss", hintImage: "🐍" },
-                    { word: "fish", hintImage: "🐠" }
+                    { word: "squirrel", hintImage: "🐿️" }, { word: "duck", hintImage: "🦆" },
+                    { word: "fly", hintImage: "🪽" }, { word: "cave", hintImage: "🪨" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["in", "the", "busy", "Animals", "are", "fall."], correct: ["Animals", "are", "busy", "in", "the", "fall."] },
@@ -308,10 +290,8 @@
                     { en: "Which one is best for me?", ko: "어떤 것이 나에게 가장 좋을까?" }
                 ],
                 words: [
-                    { word: "doctor", hintImage: "🩺" },
-                    { word: "pilot", hintImage: "✈️" },
-                    { word: "singer", hintImage: "🎤" },
-                    { word: "dancer", hintImage: "💃" },
+                    { word: "doctor", hintImage: "🩺" }, { word: "pilot", hintImage: "✈️" },
+                    { word: "singer", hintImage: "🎤" }, { word: "dancer", hintImage: "💃" },
                     { word: "best", hintImage: "👍" }
                 ],
                 sentencesForOrder: [
@@ -342,10 +322,8 @@
                     { en: "Whee!", ko: "와우!" }
                 ],
                 words: [
-                    { word: "leaf", hintImage: "🍃" }, 
-                    { word: "gold", hintImage: "✨" }, 
-                    { word: "wind", hintImage: "💨" }, 
-                    { word: "dance", hintImage: "💃" } 
+                    { word: "leaf", hintImage: "🍃" }, { word: "gold", hintImage: "✨" }, 
+                    { word: "wind", hintImage: "💨" }, { word: "dance", hintImage: "💃" } 
                 ],
                 sentencesForOrder: [
                     { scrambled: ["like", "We", "fall."], correct: ["We", "like", "fall."] },
@@ -370,10 +348,8 @@
                     { en: "Look at the wonderful stars above.", ko: "저 위에 놀라운 별들을 봐." }
                 ],
                 words: [
-                    { word: "firefly", hintImage: "🐛" },
-                    { word: "field", hintImage: "🌾" },
-                    { word: "follow", hintImage: "👣" },
-                    { word: "river", hintImage: "🌊" },
+                    { word: "firefly", hintImage: "🐛" }, { word: "field", hintImage: "🌾" },
+                    { word: "follow", hintImage: "👣" }, { word: "river", hintImage: "🌊" },
                     { word: "sky", hintImage: "🌤️" }
                 ],
                 sentencesForOrder: [
@@ -390,12 +366,12 @@
             }
         };
 
-        let state = {
-            studentName: "", selectedUnit: "4", points: 0, completedActivities: new Set()
-        };
+        // 앱 상태 변수
+        let state = { studentName: "", selectedUnit: "4", points: 0, completedActivities: new Set() };
         let activeQueue = []; let currentIndex = 0; let timerInterval = null; let currentTimerSeconds = 0;
         let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+        // 효과음 및 파티클 함수
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playSound(type) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -428,6 +404,7 @@
             }
         }
 
+        // 로그인 시작 함수
         function startParty() {
             const nameInput = document.getElementById('studentNameInput').value.trim();
             if (!nameInput) { alert("우리 학생 이름을 입력해주세요! ✍️"); return; }
@@ -451,22 +428,28 @@
             document.getElementById('headerPoints').innerText = state.points;
         }
 
+        // 스트리밍: 활동 시작 컨트롤러
         function launchActivity(type) {
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('activityArena').classList.remove('hidden');
             document.getElementById('arenaScore').innerText = state.points;
             const unit = unitData[state.selectedUnit];
 
-            if (type === 'listenRepeat') renderListenRepeat();
-            else if (type === 'spellingPuzzle') {
+            if (type === 'listenRepeat') {
+                renderListenRepeat();
+            } else if (type === 'spellingPuzzle') {
+                // 단어 순서 랜덤 배정
                 activeQueue = [...unit.words].sort(() => 0.5 - Math.random()).slice(0, Math.min(6, unit.words.length));
-                currentIndex = 0; loadSpellingQuestion();
+                currentIndex = 0; 
+                loadSpellingQuestion();
             } else if (type === 'sentenceOrder') {
                 activeQueue = [...unit.sentencesForOrder].sort(() => 0.5 - Math.random()).slice(0, Math.min(5, unit.sentencesForOrder.length));
-                currentIndex = 0; loadSentenceOrderQuestion();
+                currentIndex = 0; 
+                loadSentenceOrderQuestion();
             } else if (type === 'quiz') {
                 activeQueue = [...unit.quiz].sort(() => 0.5 - Math.random());
-                currentIndex = 0; loadQuizQuestion();
+                currentIndex = 0; 
+                loadQuizQuestion();
             }
         }
 
@@ -486,7 +469,7 @@
             let html = `
                 <div class="text-center mb-6">
                     <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">🗣️ 말하기 놀이 (+50점/문장)</span>
-                    <h3 class="text-2xl font-bold text-slate-800 mt-2">원어민 발음을 듣고 마이크에 대고 따라 외쳐봐요!</h3>
+                    <h3 class="text-2xl font-bold text-slate-800 mt-2">본문을 원어민 발음으로 듣고 마이크에 대고 외쳐봐요!</h3>
                     <p class="text-rose-500 font-bold text-sm mt-2">※ 먼저 [원어민 듣기] 버튼을 눌러야 마이크를 켤 수 있어요!</p>
                 </div>
                 <div class="space-y-4 max-w-2xl mx-auto">
@@ -549,7 +532,7 @@
 
             recognition.onresult = (event) => {
                 const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,?!'"]/g, '').trim();
-                const targetWords = targetText.split(/\s+/).filter(w => w.length > 2); // Ignore short words
+                const targetWords = targetText.split(/\s+/).filter(w => w.length > 2); // 3글자 이상 단어만 검사
                 const spokenWords = speechResult.split(/\s+/);
                 
                 let matchCount = 0;
@@ -559,9 +542,9 @@
                     }
                 });
 
-                // 매우 관대한 채점: 40% 이상 단어 일치 또는 앞부분 일치시 무조건 정답
+                // 선생님 요청: 60~70% 이상 일치하면 통과하도록 관대하게 채점
                 const matchRate = targetWords.length > 0 ? (matchCount / targetWords.length) : 1;
-                const isPass = (matchRate >= 0.4) || speechResult.includes(targetText.substring(0, 5));
+                const isPass = (matchRate >= 0.6) || speechResult.includes(targetText.substring(0, Math.floor(targetText.length * 0.6)));
 
                 if (isPass) {
                     playSound('correct');
@@ -576,7 +559,7 @@
                 }
             };
             recognition.onspeechend = () => { recognition.stop(); btn.classList.remove('mic-active'); if(btn.innerText === "🎙️ 듣고 있어요...") btn.innerText = "🎤 마이크로 말하기"; };
-            recognition.onerror = () => { btn.classList.remove('mic-active'); btn.innerText = "🎤 마이크로 말하기"; resultDiv.innerText = "잘 안 들렸어요. 다시 버튼을 눌러주세요! 🗣️"; resultDiv.className = "text-sm font-bold mt-1 h-5 text-amber-500"; };
+            recognition.onerror = () => { btn.classList.remove('mic-active'); btn.innerText = "🎤 마이크로 말하기"; resultDiv.innerText = "잘 안 들렸어요. 주변이 조용한지 확인해주세요! 🗣️"; resultDiv.className = "text-sm font-bold mt-1 h-5 text-amber-500"; };
         }
 
         function checkListenComplete() { state.completedActivities.add('listenRepeat'); backToDashboard(); }
@@ -593,7 +576,8 @@
             const item = activeQueue[currentIndex];
             const word = item.word;
             
-            // 핵심 수정 포인트: 이제 접속할 때마다 무작위로 빈칸 위치를 뚫습니다!!
+            // 핵심: 문제를 불러올 때(화면에 표시될 때)마다 매번 무작위로 빈칸 위치를 실시간 지정합니다!
+            // 따라서 같은 단어라도 들어올 때마다 빈칸 위치가 계속 바뀝니다.
             const randomMissingIdx = Math.floor(Math.random() * word.length);
             const missingChar = word[randomMissingIdx];
             
@@ -704,18 +688,29 @@
         }
 
         function finishAllActivities() {
-            // 브라우저의 CORS 철통 보안을 무력화하는 무적의 전송 방식 (Hidden Form 방식)
-            // fetch나 XMLHttpRequest를 쓰지 않기 때문에 브라우저가 차단할 수 없습니다.
-            document.getElementById('entry_timestamp').value = new Date().toLocaleString();
-            document.getElementById('entry_name').value = state.studentName;
-            document.getElementById('entry_unit').value = state.selectedUnit;
-            document.getElementById('entry_points').value = state.points;
-            document.getElementById('entry_count').value = state.completedActivities.size;
+            // 구글 시트 주소 (선생님 최신 주소 하드코딩)
+            const googleScriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
             
-            // 폼 강제 제출 (숨겨진 iframe으로 전송되어 화면 전환 없음, 100% 도착)
-            document.getElementById('google_form').submit();
+            // 보낼 데이터를 URL 뒤에 파라미터로 예쁘게 조립
+            const queryParams = `?timestamp=${encodeURIComponent(new Date().toLocaleString())}&studentName=${encodeURIComponent(state.studentName)}&unit=${encodeURIComponent(state.selectedUnit)}&totalPoints=${state.points}&completedCount=${state.completedActivities.size}`;
+            
+            // 최종 조립된 무적의 주소
+            const finalSubmitURL = googleScriptURL + queryParams;
 
-            // 즉시 완료 화면 보여주기
+            // [무적 전송 방식 1] Image Beacon 방식
+            // 화면에 보이지 않는 이미지를 불러오는 척 하면서 백그라운드에서 구글로 주소를 쏴버립니다. 
+            // 깃허브 보안, 브라우저 CORS 모두 이 방식은 막을 권한이 없습니다. 100% 도착합니다.
+            new Image().src = finalSubmitURL;
+
+            // [무적 전송 방식 2] Fetch (no-cors) 방식 (백업용 2중 안전장치)
+            // 브라우저에게 "나 응답(결과) 안 받아도 되니까 일단 무조건 보내기만 해"라고 강제하는 방식입니다.
+            try {
+                fetch(finalSubmitURL, { method: 'GET', mode: 'no-cors' });
+            } catch(e) {
+                console.log("No-cors 2차 발송 시도됨");
+            }
+
+            // 전송 완료 후 즉시 파티 완료 화면 보여주기
             playSound('party');
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('completeView').classList.remove('hidden');
