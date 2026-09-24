@@ -564,7 +564,7 @@
             let html = `
                 <div class="text-center mb-6">
                     <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">🗣️ 말하기 놀이 (+50점/문장)</span>
-                    <h3 class="text-2xl font-bold text-slate-800 mt-2">본문 전체 원어민 발음을 듣고 마이크에 대고 따라 외쳐봐요! (${unit.sentences.length}개 문장)</h3>
+                    <h3 class="text-2xl font-bold text-slate-800 mt-2">원어민 발음을 들은 후 마이크로 따라읽기해야 점수를 줍니다! (${unit.sentences.length}개 문장)</h3>
                     <p class="text-rose-500 font-bold text-sm mt-2">※ 먼저 원어민 발음을 들어야 마이크로 말할 수 있어요!</p>
                 </div>
                 <div class="space-y-4 max-w-2xl mx-auto">
@@ -651,7 +651,7 @@
                 let matchCount = 0;
                 
                 targetWords.forEach(tw => {
-                    if (tw.length > 1) {
+                    if (tw.length > 0) {
                         const isMatch = spokenWords.some(sw => {
                            return sw === tw || sw.includes(tw) || tw.includes(sw) || (sw.length >= 3 && sw.substring(0,3) === tw.substring(0,3));
                         });
@@ -659,15 +659,11 @@
                     }
                 });
                 
-                const meaningfulTargetCount = targetWords.filter(w => w.length > 1).length;
-                let isPass = false;
+                const totalTargetCount = targetWords.length;
+                const matchRate = totalTargetCount > 0 ? (matchCount / totalTargetCount) : 0;
                 
-                if (meaningfulTargetCount <= 1) {
-                    isPass = speechResult.includes(targetText) || targetText.includes(speechResult) || speechResult.length > 0;
-                } else {
-                    const matchRate = matchCount / meaningfulTargetCount;
-                    isPass = matchRate >= 0.4 || speechResult.length >= 2;
-                }
+                // 70% 이상 정확도로 발음하면 통과 (아이들 눈높이에 맞게 관대하면서도 충분히 읽어야 하도록 설정)
+                let isPass = (matchRate >= 0.7) || (speechResult.includes(targetText) || targetText.includes(speechResult));
 
                 if (isPass) {
                     playSound('correct');
@@ -686,7 +682,7 @@
                     btn.innerText = "🎤 마이크로 말하기 (+50점)";
                     btn.classList.remove('mic-active');
                     
-                    resultDiv.innerText = `거의 다 왔어요! 조금만 더 또렷하게 말해볼까요? 💪`;
+                    resultDiv.innerText = `거의 다 왔어요! 조금만 더 또렷하게 읽어볼까요? 💪`;
                     resultDiv.classList.add('text-amber-500');
                 }
             };
@@ -959,7 +955,7 @@
         function submitToGoogleSheet(data) {
             const scriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
             
-            // CORS 및 네트워크 블로킹을 우회하는 100% 안정적인 Form 전송 방식 적용
+            // 100% 안정적인 Form 서브밋 방식을 사용하여 CORS 차단 없이 구글 시트에 즉시 기록합니다.
             const form = document.createElement('form');
             form.method = 'GET';
             form.action = scriptURL;
