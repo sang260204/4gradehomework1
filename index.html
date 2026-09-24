@@ -117,7 +117,7 @@
                     <div class="flex-grow">
                         <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">말하기 놀이 (+50점/문장)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">1. 신나는 목소리로 따라읽기</h3>
-                        <p class="text-sm text-slate-500 mt-0.5">원어민 발음을 듣고 마이크로 따라 외쳐요!</p>
+                        <p class="text-sm text-slate-500 mt-0.5">원어민 발음을 먼저 듣고 마이크로 따라 외쳐요!</p>
                     </div>
                 </div>
 
@@ -564,7 +564,7 @@
             let html = `
                 <div class="text-center mb-6">
                     <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">🗣️ 말하기 놀이 (+50점/문장)</span>
-                    <h3 class="text-2xl font-bold text-slate-800 mt-2">원어민 발음을 들은 후 마이크로 따라읽기해야 점수를 줍니다! (${unit.sentences.length}개 문장)</h3>
+                    <h3 class="text-2xl font-bold text-slate-800 mt-2">본문 전체 원어민 발음을 듣고 마이크에 대고 따라 외쳐봐요! (${unit.sentences.length}개 문장)</h3>
                     <p class="text-rose-500 font-bold text-sm mt-2">※ 먼저 원어민 발음을 들어야 마이크로 말할 수 있어요!</p>
                 </div>
                 <div class="space-y-4 max-w-2xl mx-auto">
@@ -619,7 +619,7 @@
 
         function startSpeechRecognition(targetText, idx) {
             if (!SpeechRecognition) {
-                alert("마이크 인식을 지원하지 않는 브라우저입니다. 최신 크롬 브라우저를 이용해주세요.");
+                alert("마이크 인식을 지원하지 않는 브라우저입니다. 크롬 브라우저를 이용해주세요.");
                 return;
             }
 
@@ -644,23 +644,19 @@
             recognition.onresult = (event) => {
                 const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,?!'"]/g, '').trim();
                 
-                const targetWords = targetText.split(/\s+/);
-                const spokenWords = speechResult.split(/\s+/);
+                const targetWords = targetText.split(/\s+/).filter(w => w.length > 0);
+                const spokenWords = speechResult.split(/\s+/).filter(w => w.length > 0);
+                
                 let matchCount = 0;
-                
                 targetWords.forEach(tw => {
-                    if (tw.length > 0) {
-                        const isMatch = spokenWords.some(sw => {
-                           return sw === tw || sw.includes(tw) || tw.includes(sw) || (sw.length >= 3 && sw.substring(0,3) === tw.substring(0,3));
-                        });
-                        if (isMatch) matchCount++;
-                    }
+                    const isMatch = spokenWords.some(sw => {
+                        return sw === tw || sw.includes(tw) || tw.includes(sw) || (sw.length >= 3 && sw.substring(0, 3) === tw.substring(0, 3));
+                    });
+                    if (isMatch) matchCount++;
                 });
-                
-                const totalTargetCount = targetWords.length;
-                const matchRate = totalTargetCount > 0 ? (matchCount / totalTargetCount) : 0;
-                
-                // 70% 이상 발음 정확도면 통과
+
+                const matchRate = targetWords.length > 0 ? (matchCount / targetWords.length) : 0;
+                // 약 70% 이상 일치하거나 문장 단어가 상당수 겹치면 통과
                 let isPass = (matchRate >= 0.7) || (speechResult.includes(targetText) || targetText.includes(speechResult));
 
                 if (isPass) {
@@ -941,7 +937,7 @@
             document.getElementById('completeView').classList.remove('hidden');
             document.getElementById('finalScoreDisplay').innerText = state.points;
 
-            submitToGoogleSheet({
+            submitToGoogleSheetSecure({
                 timestamp: new Date().toLocaleString(),
                 studentName: state.studentName,
                 unit: state.selectedUnit,
@@ -950,25 +946,39 @@
             });
         }
 
-        // 구글 시트 연동 100% 보장하는 JSONP 방식 전송 함수
-        function submitToGoogleSheet(data) {
+        // 브라우저 CORS 차단을 100% 우회하여 구글 시트에 전송하는 가장 강력한 숨겨진 아이프레임(Form) 방식
+        function submitToGoogleSheetSecure(data) {
             const scriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
             
-            const params = new URLSearchParams({
-                timestamp: data.timestamp,
-                studentName: data.studentName,
-                unit: data.unit,
-                totalPoints: data.totalPoints,
-                completedCount: data.completedCount
-            });
+            // 숨겨진 iframe 생성
+            let iframe = document.getElementById('hidden_sheet_iframe');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.id = 'hidden_sheet_iframe';
+                iframe.name = 'hidden_sheet_iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
 
-            const scriptElem = document.createElement('script');
-            scriptElem.src = `${scriptURL}?${params.toString()}`;
-            document.body.appendChild(scriptElem);
-            
-            setTimeout(() => {
-                document.body.removeChild(scriptElem);
-            }, 2000);
+            // 숨겨진 form 생성
+            const form = document.createElement('form');
+            form.action = scriptURL;
+            form.method = 'GET';
+            form.target = 'hidden_sheet_iframe';
+
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = data[key];
+                    form.appendChild(input);
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
         }
     </script>
 </body>
