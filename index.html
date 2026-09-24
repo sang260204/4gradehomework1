@@ -32,7 +32,7 @@
         }
         .mic-active {
             animation: pulseMic 1s infinite;
-            background-color: #ef4444 !important; /* Tailwind red-500 */
+            background-color: #ef4444 !important;
         }
         @keyframes pulseMic {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
@@ -135,7 +135,7 @@
                 <div onclick="launchActivity('sentenceOrder')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-indigo-200 hover:border-indigo-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🎯</div>
                     <div class="flex-grow">
-                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">문장 조립 (+80점/문제)</span>
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">문장 조립 (+50점/문제)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">3. 흩어진 문장 순서 맞추기</h3>
                         <p class="text-sm text-slate-500 mt-0.5">단어 조각을 순서대로 배열해 문장을 완성해요!</p>
                     </div>
@@ -370,10 +370,10 @@
                     { scrambled: ["fly", "warm", "to", "They", "places."], correct: ["They", "fly", "to", "warm", "places."] }
                 ],
                 quiz: [
-                    { q: "Animals are ________ in the fall.", img: "🍁", options: ["busy", "slow"], answer: "busy" },
+                    { q: "Animals are ________ in the fall.", img: "🍁", options: ["slow", "busy"], answer: "busy" },
                     { q: "The ________ gather acorns.", img: "🌰", options: ["squirrels", "bears"], answer: "squirrels" },
                     { q: "The ducks ________ to warm places.", img: "🦆", options: ["fly", "swim"], answer: "fly" },
-                    { q: "The bears find warm ________.", img: "🐻", options: ["caves", "acorns"], answer: "caves" }
+                    { q: "The bears find warm ________.", img: "🐻", options: ["acorns", "caves"], answer: "caves" }
                 ]
             },
             "7": {
@@ -402,7 +402,7 @@
                     { scrambled: ["best", "Which", "one", "is", "for", "me?"], correct: ["Which", "one", "is", "best", "for", "me?"] }
                 ],
                 quiz: [
-                    { q: "What is Julia talking about?", img: "👧", options: ["her dream jobs", "her friends"], answer: "her dream jobs" },
+                    { q: "What is Julia talking about?", img: "👧", options: ["her friends", "her dream jobs"], answer: "her dream jobs" },
                     { q: "What does Julia NOT want to be?", img: "🍳", options: ["a cook", "a singer"], answer: "a cook" },
                     { q: "Julia wants to be many things.", img: "⭐", options: ["Yes", "No"], answer: "Yes" },
                     { q: "Julia thinks a doctor is the best job.", img: "🩺", options: ["No", "Yes"], answer: "No" }
@@ -437,7 +437,7 @@
                     { scrambled: ["dance", "wind.", "The", "leaves", "with", "the"], correct: ["The", "leaves", "dance", "with", "the", "wind."] }
                 ],
                 quiz: [
-                    { q: "We can see colorful ________.", img: "🍂", options: ["leaves", "flowers"], answer: "leaves" },
+                    { q: "We can see colorful ________.", img: "🍂", options: ["flowers", "leaves"], answer: "leaves" },
                     { q: "This tree has ________ leaves.", img: "🟫", options: ["brown", "green"], answer: "brown" },
                     { q: "The wind blows.", img: "💨", options: ["Yes", "No"], answer: "Yes" },
                     { q: "We dance with the leaves.", img: "🍃", options: ["Yes", "No"], answer: "Yes" }
@@ -467,9 +467,9 @@
                 ],
                 quiz: [
                     { q: "What can you see in the field?", img: "✨", options: ["fireflies", "cars"], answer: "fireflies" },
-                    { q: "Where do fireflies blink?", img: "🌤️", options: ["in the dark sky", "in the box"], answer: "in the dark sky" },
-                    { q: "What should we follow near the river?", img: "👣", options: ["the shining light", "the train"], answer: "the shining light" },
-                    { q: "What is above us in the night?", img: "⭐", options: ["stars", "fish"], answer: "stars" }
+                    { q: "Where do fireflies blink?", img: "🌤️", options: ["in the box", "in the dark sky"], answer: "in the dark sky" },
+                    { q: "What should we follow near the river?", img: "👣", options: ["the train", "the shining light"], answer: "the shining light" },
+                    { q: "What is above us in the night?", img: "⭐", options: ["fish", "stars"], answer: "stars" }
                 ]
             }
         };
@@ -532,7 +532,7 @@
             if (type === 'listenRepeat') {
                 renderListenRepeat();
             } else if (type === 'spellingPuzzle') {
-                const count = state.selectedUnit === "5" ? unit.words.length : Math.min(6, unit.words.length);
+                const count = Math.min(6, unit.words.length);
                 activeQueue = [...unit.words].sort(() => 0.5 - Math.random()).slice(0, count);
                 currentIndex = 0;
                 loadSpellingQuestion();
@@ -541,7 +541,7 @@
                 currentIndex = 0;
                 loadSentenceOrderQuestion();
             } else if (type === 'quiz') {
-                const count = state.selectedUnit === "5" ? unit.quiz.length : Math.min(6, unit.quiz.length);
+                const count = unit.quiz.length;
                 activeQueue = [...unit.quiz].sort(() => 0.5 - Math.random()).slice(0, count);
                 currentIndex = 0;
                 loadQuizQuestion();
@@ -627,7 +627,7 @@
             const resultDiv = document.getElementById(`speechResult_${idx}`);
             
             if (btn.classList.contains('bg-emerald-600')) {
-                return; // Already completed successfully
+                return;
             }
 
             const recognition = new SpeechRecognition();
@@ -651,7 +651,7 @@
                 let matchCount = 0;
                 
                 targetWords.forEach(tw => {
-                    if (tw.length > 2) {
+                    if (tw.length > 1) {
                         const isMatch = spokenWords.some(sw => {
                            return sw === tw || sw.includes(tw) || tw.includes(sw) || (sw.length >= 3 && sw.substring(0,3) === tw.substring(0,3));
                         });
@@ -659,14 +659,14 @@
                     }
                 });
                 
-                const meaningfulTargetCount = targetWords.filter(w => w.length > 2).length;
-                
+                const meaningfulTargetCount = targetWords.filter(w => w.length > 1).length;
                 let isPass = false;
+                
                 if (meaningfulTargetCount <= 1) {
-                    isPass = speechResult.includes(targetText) || targetText.includes(speechResult);
+                    isPass = speechResult.includes(targetText) || targetText.includes(speechResult) || speechResult.length > 0;
                 } else {
                     const matchRate = matchCount / meaningfulTargetCount;
-                    isPass = matchRate >= 0.4 || speechResult === targetText;
+                    isPass = matchRate >= 0.4 || speechResult.length >= 2;
                 }
 
                 if (isPass) {
@@ -748,7 +748,7 @@
             const area = document.getElementById('activityContentArea');
             document.getElementById('arenaTimerBox').classList.remove('hidden');
 
-            startTimer(10, () => {
+            startTimer(15, () => {
                 playSound('wrong');
                 alert(`시간 초과! 정답은 '${missingChar.toUpperCase()}' 였습니다.`);
                 currentIndex++;
@@ -757,7 +757,7 @@
 
             area.innerHTML = `
                 <div class="text-center max-w-md mx-auto space-y-6">
-                    <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">🧩 빠진 글자 맞추기 (${currentIndex + 1}/${activeQueue.length}) - 10초</span>
+                    <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">🧩 빠진 글자 맞추기 (${currentIndex + 1}/${activeQueue.length}) - 15초</span>
                     <div class="text-7xl py-4 bg-orange-50 rounded-3xl border-3 border-orange-200 inline-block px-8 card-shadow bouncing">${item.hintImage}</div>
                     <div class="text-4xl font-extrabold tracking-widest text-slate-800 bg-slate-100 py-4 rounded-2xl border border-slate-200">${displayWordStr}</div>
                     <p class="text-sm text-slate-500">빈칸에 쏙 들어갈 알파벳은 무엇일까요?</p>
@@ -817,7 +817,7 @@
             function updateUI() {
                 area.innerHTML = `
                     <div class="text-center max-w-lg mx-auto space-y-6">
-                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full">🎯 문장 조립 파티 (${currentIndex + 1}/${activeQueue.length}) - 30초</span>
+                        <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full">🎯 문장 조립 파티 (+50점) (${currentIndex + 1}/${activeQueue.length}) - 30초</span>
                         <div class="text-slate-600 font-bold">아래 단어 조각을 눌러 바른 순서로 배치하세요!</div>
                         
                         <div class="min-h-[75px] bg-indigo-50 border-3 border-dashed border-indigo-300 rounded-2xl p-4 flex flex-wrap gap-2 items-center justify-center">
@@ -863,9 +863,9 @@
                 const isCorrect = JSON.stringify(userResult) === JSON.stringify(item.correct);
                 if (isCorrect) {
                     playSound('correct');
-                    state.points += 80;
+                    state.points += 50;
                     document.getElementById('arenaScore').innerText = state.points;
-                    alert("정답입니다! 보너스 포인트 +80점! 🎉");
+                    alert("정답입니다! 포인트 +50점! 🎉");
                 } else {
                     playSound('wrong');
                     alert(`아쉽네요! 정답: ${item.correct.join(' ')}`);
@@ -958,19 +958,36 @@
 
         function submitToGoogleSheet(data) {
             const scriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
-            const params = new URLSearchParams({
-                timestamp: data.timestamp,
-                studentName: data.studentName,
-                unit: data.unit,
-                totalPoints: data.totalPoints,
-                completedCount: data.completedCount
-            });
+            
+            // CORS 및 네트워크 블로킹을 우회하는 100% 안정적인 Form 전송 방식 적용
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = scriptURL;
+            form.target = 'hidden_iframe';
+            form.style.display = 'none';
 
-            const img = new Image();
-            img.src = `${scriptURL}?${params.toString()}`;
-            img.style.display = 'none';
-            document.body.appendChild(img);
-            setTimeout(() => { document.body.removeChild(img); }, 3000);
+            for (const key in data) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = data[key];
+                form.appendChild(input);
+            }
+
+            let iframe = document.getElementById('hidden_iframe');
+            if (!iframe) {
+                iframe = document.createElement('iframe');
+                iframe.name = 'hidden_iframe';
+                iframe.id = 'hidden_iframe';
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+            setTimeout(() => {
+                document.body.removeChild(form);
+            }, 1000);
         }
     </script>
 </body>
