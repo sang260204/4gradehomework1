@@ -115,7 +115,7 @@
                 <div onclick="launchActivity('listenRepeat')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-emerald-200 hover:border-emerald-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🗣️</div>
                     <div class="flex-grow">
-                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">말하기 놀이 (보너스 포인트)</span>
+                        <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">말하기 놀이 (+50점/문장)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">1. 신나는 목소리로 따라읽기</h3>
                         <p class="text-sm text-slate-500 mt-0.5">원어민 발음 듣고 마이크로 따라 외쳐요!</p>
                     </div>
@@ -125,7 +125,7 @@
                 <div onclick="launchActivity('spellingPuzzle')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-orange-200 hover:border-orange-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🧩</div>
                     <div class="flex-grow">
-                        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full">스펠링 쏙쏙 (10초 타이머)</span>
+                        <span class="text-xs font-bold text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full">스펠링 쏙쏙 (+50점/문제)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">2. 빠진 글자 맞추기 대모험</h3>
                         <p class="text-sm text-slate-500 mt-0.5">구멍 난 알파벳을 찾아 쏙쏙 끼워 넣어요!</p>
                     </div>
@@ -135,7 +135,7 @@
                 <div onclick="launchActivity('sentenceOrder')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-indigo-200 hover:border-indigo-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🎯</div>
                     <div class="flex-grow">
-                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">문장 조립 (30초 타이머)</span>
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full">문장 조립 (+80점/문제)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">3. 흩어진 문장 순서 맞추기</h3>
                         <p class="text-sm text-slate-500 mt-0.5">단어 조각을 순서대로 배열해 문장을 완성해요!</p>
                     </div>
@@ -145,7 +145,7 @@
                 <div onclick="launchActivity('quiz')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-purple-200 hover:border-purple-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🎨</div>
                     <div class="flex-grow">
-                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">퀴즈 파티 (기본 포인트)</span>
+                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">퀴즈 파티 (+10점/문제)</span>
                         <h3 class="text-xl font-bold text-slate-800 mt-1">4. 알록달록 그림 퀴즈 맞추기</h3>
                         <p class="text-sm text-slate-500 mt-0.5">교과서 그림을 보고 알맞은 정답을 골라봐요!</p>
                     </div>
@@ -507,7 +507,6 @@
         function updateDashboardUI() {
             const unit = unitData[state.selectedUnit];
             
-            // Fix: Apply the innerText safely matching our HTML IDs
             const currentUnitTitleEl = document.getElementById('currentUnitTitle');
             if(currentUnitTitleEl) currentUnitTitleEl.innerText = `Unit ${state.selectedUnit}`;
             
@@ -564,7 +563,7 @@
 
             let html = `
                 <div class="text-center mb-6">
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">🗣️ 말하기 놀이 (보너스 포인트)</span>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">🗣️ 말하기 놀이 (+50점/문장)</span>
                     <h3 class="text-2xl font-bold text-slate-800 mt-2">본문 전체 원어민 발음을 듣고 마이크에 대고 따라 외쳐봐요! (${unit.sentences.length}개 문장)</h3>
                     <p class="text-rose-500 font-bold text-sm mt-2">※ 먼저 원어민 발음을 들어야 마이크로 말할 수 있어요!</p>
                 </div>
@@ -628,7 +627,7 @@
             const resultDiv = document.getElementById(`speechResult_${idx}`);
             
             if (btn.classList.contains('bg-emerald-600')) {
-                return; // Already completed
+                return; // Already completed successfully
             }
 
             const recognition = new SpeechRecognition();
@@ -680,11 +679,11 @@
                     resultDiv.innerText = `참 잘했어요! 훌륭합니다 👏`;
                     resultDiv.classList.add('text-emerald-600');
 
-                    state.points += 50; // Requested change to 50 points
+                    state.points += 50;
                     document.getElementById('arenaScore').innerText = state.points;
                 } else {
                     playSound('wrong');
-                    btn.innerText = "🎤 다시 말하기";
+                    btn.innerText = "🎤 마이크로 말하기 (+50점)";
                     btn.classList.remove('mic-active');
                     
                     resultDiv.innerText = `거의 다 왔어요! 조금만 더 또렷하게 말해볼까요? 💪`;
@@ -696,19 +695,15 @@
                 recognition.stop();
                 btn.classList.remove('mic-active');
                 if (btn.innerText === "🎙️ 듣고 있어요...") {
-                     btn.innerText = "🎤 다시 말하기";
+                     btn.innerText = "🎤 마이크로 말하기 (+50점)";
                 }
             };
 
-            recognition.onerror = (event) => {
+            recognition.onerror = () => {
                 btn.classList.remove('mic-active');
-                btn.innerText = "🎤 다시 말하기";
-                if(event.error === 'not-allowed') {
-                    alert("마이크 사용 권한이 차단되었습니다. 브라우저 설정에서 마이크를 허용해주세요.");
-                } else {
-                    resultDiv.innerText = "목소리가 잘 안 들렸어요. 다시 버튼을 눌러주세요! 🗣️";
-                    resultDiv.classList.add('text-amber-500');
-                }
+                btn.innerText = "🎤 마이크로 말하기 (+50점)";
+                resultDiv.innerText = "목소리가 잘 안 들렸어요. 다시 버튼을 눌러주세요! 🗣️";
+                resultDiv.classList.add('text-amber-500');
             };
         }
 
@@ -903,7 +898,7 @@
 
             area.innerHTML = `
                 <div class="text-center max-w-md mx-auto space-y-6">
-                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">🎨 그림 퀴즈 파티 (${currentIndex + 1}/${activeQueue.length})</span>
+                    <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">🎨 그림 퀴즈 파티 (+10점) (${currentIndex + 1}/${activeQueue.length})</span>
                     <div class="text-7xl py-4 bg-purple-50 rounded-3xl border-3 border-purple-200 inline-block px-8 card-shadow bouncing">${qItem.img}</div>
                     <h3 class="text-xl font-bold text-slate-800">${qItem.q}</h3>
                     <div class="grid grid-cols-2 gap-4">
@@ -920,7 +915,7 @@
         function checkQuizAnswer(selected, correct) {
             if (selected === correct) {
                 playSound('correct');
-                state.points += 10; // Requested change to 10 points
+                state.points += 10;
                 document.getElementById('arenaScore').innerText = state.points;
             } else {
                 playSound('wrong');
@@ -963,7 +958,6 @@
 
         function submitToGoogleSheet(data) {
             const scriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
-            
             const params = new URLSearchParams({
                 timestamp: data.timestamp,
                 studentName: data.studentName,
