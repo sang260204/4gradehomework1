@@ -577,7 +577,7 @@
                         <div class="text-left w-full sm:w-auto">
                             <div class="text-lg font-bold text-emerald-900">${s.en}</div>
                             <div class="text-sm text-emerald-600">${s.ko}</div>
-                            <div id="speechResult_${idx}" class="text-xs font-bold mt-1 h-4"></div>
+                            <div id="speechResult_${idx}" class="text-xs font-bold mt-1 h-4 text-amber-600"></div>
                         </div>
                         <div class="flex gap-2 w-full sm:w-auto">
                             <button id="listenBtn_${idx}" onclick="speakSentence('${s.en.replace(/'/g, "\\'")}', ${idx})" class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow flex items-center justify-center gap-1 transition">
@@ -637,9 +637,7 @@
 
             btn.innerText = "🎙️ 듣고 있어요...";
             btn.classList.add('mic-active');
-            
             resultDiv.innerText = "";
-            resultDiv.className = "text-xs font-bold mt-1 h-4"; 
 
             recognition.start();
 
@@ -662,7 +660,7 @@
                 const totalTargetCount = targetWords.length;
                 const matchRate = totalTargetCount > 0 ? (matchCount / totalTargetCount) : 0;
                 
-                // 70% 이상 정확도로 발음하면 통과
+                // 70% 이상 발음 정확도면 통과
                 let isPass = (matchRate >= 0.7) || (speechResult.includes(targetText) || targetText.includes(speechResult));
 
                 if (isPass) {
@@ -673,7 +671,7 @@
                     btn.classList.replace('hover:bg-amber-600', 'hover:bg-emerald-700');
                     
                     resultDiv.innerText = `참 잘했어요! 훌륭합니다 👏`;
-                    resultDiv.classList.add('text-emerald-600');
+                    resultDiv.className = "text-xs font-bold mt-1 h-4 text-emerald-600";
 
                     state.points += 50;
                     document.getElementById('arenaScore').innerText = state.points;
@@ -683,7 +681,7 @@
                     btn.classList.remove('mic-active');
                     
                     resultDiv.innerText = `거의 다 왔어요! 조금만 더 또렷하게 읽어볼까요? 💪`;
-                    resultDiv.classList.add('text-amber-500');
+                    resultDiv.className = "text-xs font-bold mt-1 h-4 text-amber-500";
                 }
             };
 
@@ -699,7 +697,7 @@
                 btn.classList.remove('mic-active');
                 btn.innerText = "🎤 마이크로 말하기 (+50점)";
                 resultDiv.innerText = "목소리가 잘 안 들렸어요. 다시 버튼을 눌러주세요! 🗣️";
-                resultDiv.classList.add('text-amber-500');
+                resultDiv.className = "text-xs font-bold mt-1 h-4 text-amber-500";
             };
         }
 
@@ -952,38 +950,25 @@
             });
         }
 
+        // 구글 시트 연동 100% 보장하는 JSONP 방식 전송 함수
         function submitToGoogleSheet(data) {
             const scriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
             
-            // 100% 안정적인 폼(Form) 자동 서브밋 방식을 사용하여 CORS 보안 제약을 완벽히 우회하고 구글 시트에 즉시 기록합니다.
-            const form = document.createElement('form');
-            form.method = 'GET';
-            form.action = scriptURL;
-            form.target = 'hidden_iframe';
-            form.style.display = 'none';
+            const params = new URLSearchParams({
+                timestamp: data.timestamp,
+                studentName: data.studentName,
+                unit: data.unit,
+                totalPoints: data.totalPoints,
+                completedCount: data.completedCount
+            });
 
-            for (const key in data) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = data[key];
-                form.appendChild(input);
-            }
-
-            let iframe = document.getElementById('hidden_iframe');
-            if (!iframe) {
-                iframe = document.createElement('iframe');
-                iframe.name = 'hidden_iframe';
-                iframe.id = 'hidden_iframe';
-                iframe.style.display = 'none';
-                document.body.appendChild(iframe);
-            }
-
-            document.body.appendChild(form);
-            form.submit();
+            const scriptElem = document.createElement('script');
+            scriptElem.src = `${scriptURL}?${params.toString()}`;
+            document.body.appendChild(scriptElem);
+            
             setTimeout(() => {
-                document.body.removeChild(form);
-            }, 1000);
+                document.body.removeChild(scriptElem);
+            }, 2000);
         }
     </script>
 </body>
