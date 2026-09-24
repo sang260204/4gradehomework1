@@ -30,6 +30,15 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.03); }
         }
+        .mic-active {
+            animation: pulseMic 1s infinite;
+            background-color: #ef4444 !important; /* Tailwind red-500 */
+        }
+        @keyframes pulseMic {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+        }
     </style>
 </head>
 <body class="text-slate-800 flex flex-col min-h-screen">
@@ -49,7 +58,6 @@
 
     <main class="flex-grow max-w-4xl w-full mx-auto p-4 sm:p-6 flex flex-col justify-center">
 
-        <!-- STEP 1: Student Login / Setup View -->
         <div id="loginView" class="bg-white rounded-3xl p-6 sm:p-10 card-shadow border-4 border-amber-300 max-w-lg mx-auto w-full text-center relative overflow-hidden">
             <div class="absolute -top-10 -right-10 text-7xl opacity-20">🎈</div>
             <div class="absolute -bottom-10 -left-10 text-7xl opacity-20">⭐</div>
@@ -84,7 +92,6 @@
             </div>
         </div>
 
-        <!-- STEP 2: Activity Dashboard (Hub) -->
         <div id="dashboardView" class="hidden space-y-6">
             <div class="bg-white rounded-3xl p-6 card-shadow border-4 border-amber-300 flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-4">
@@ -103,8 +110,8 @@
                 </div>
             </div>
 
-            <!-- Activity Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Activity 1 -->
                 <div onclick="launchActivity('listenRepeat')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-emerald-200 hover:border-emerald-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🗣️</div>
                     <div class="flex-grow">
@@ -114,6 +121,7 @@
                     </div>
                 </div>
 
+                <!-- Activity 2 -->
                 <div onclick="launchActivity('spellingPuzzle')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-orange-200 hover:border-orange-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🧩</div>
                     <div class="flex-grow">
@@ -123,6 +131,7 @@
                     </div>
                 </div>
 
+                <!-- Activity 3 -->
                 <div onclick="launchActivity('sentenceOrder')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-indigo-200 hover:border-indigo-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🎯</div>
                     <div class="flex-grow">
@@ -132,12 +141,13 @@
                     </div>
                 </div>
 
+                <!-- Activity 4 -->
                 <div onclick="launchActivity('quiz')" class="bg-white p-6 rounded-3xl card-shadow border-3 border-purple-200 hover:border-purple-500 cursor-pointer transition transform hover:-translate-y-1.5 flex items-center gap-5 group">
                     <div class="w-16 h-16 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl group-hover:scale-110 transition">🎨</div>
                     <div class="flex-grow">
-                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">랜덤 퀴즈 파티 (기본 포인트)</span>
-                        <h3 class="text-xl font-bold text-slate-800 mt-1">4. 알록달록 종합 퀴즈 맞추기</h3>
-                        <p class="text-sm text-slate-500 mt-0.5">단어와 문장 뜻을 보고 알맞은 정답을 골라봐요!</p>
+                        <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">퀴즈 파티 (기본 포인트)</span>
+                        <h3 class="text-xl font-bold text-slate-800 mt-1">4. 알록달록 그림 퀴즈 맞추기</h3>
+                        <p class="text-sm text-slate-500 mt-0.5">교과서 그림을 보고 알맞은 정답을 골라봐요!</p>
                     </div>
                 </div>
             </div>
@@ -149,7 +159,6 @@
             </div>
         </div>
 
-        <!-- STEP 3: Activity Arena Container -->
         <div id="activityArena" class="hidden bg-white rounded-3xl p-6 sm:p-8 card-shadow border-4 border-amber-300 relative">
             <div class="flex justify-between items-center mb-6 border-b-2 border-slate-100 pb-4">
                 <button onclick="backToDashboard()" class="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded-xl text-slate-700 font-bold text-sm flex items-center gap-2 transition">
@@ -163,11 +172,9 @@
                 </div>
             </div>
 
-            <!-- Dynamic Content Area -->
             <div id="activityContentArea"></div>
         </div>
 
-        <!-- STEP 4: Completion Celebration View -->
         <div id="completeView" class="hidden bg-white rounded-3xl p-8 sm:p-12 card-shadow border-4 border-emerald-400 max-w-lg mx-auto w-full text-center space-y-6 relative overflow-hidden">
             <div class="absolute -top-12 -left-12 text-8xl opacity-30">🎆</div>
             <div class="absolute -bottom-12 -right-12 text-8xl opacity-30">🎉</div>
@@ -175,7 +182,7 @@
             <div class="w-32 h-32 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-7xl bouncing card-shadow relative z-10">🏆</div>
             <div class="relative z-10">
                 <h2 class="text-3xl font-extrabold text-slate-800 mb-2">복습 파티 대성공! 🎉</h2>
-                <p id="finalMessage" class="text-slate-600 text-lg">와! 정말 멋져요! 선생님께 복습 결과가 전달되었습니다.</p>
+                <p id="finalMessage" class="text-slate-600 text-lg">선생님께 복습 결과가 안전하게 전달되었습니다.</p>
             </div>
             <div class="bg-amber-50 border-3 border-amber-200 p-6 rounded-2xl relative z-10">
                 <div class="text-sm text-amber-800 font-bold mb-1">우리 학생 최종 획득 포인트</div>
@@ -215,12 +222,7 @@
                 gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
                 osc.start(now);
                 osc.stop(now + 0.6);
-
-                confetti({
-                    particleCount: 80,
-                    spread: 70,
-                    origin: { y: 0.6 }
-                });
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
             } else if (type === 'wrong') {
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(180, now);
@@ -242,18 +244,13 @@
                     o.start(now + idx * 0.12);
                     o.stop(now + idx * 0.12 + 0.3);
                 });
-                confetti({
-                    particleCount: 150,
-                    spread: 100,
-                    origin: { y: 0.5 }
-                });
+                confetti({ particleCount: 150, spread: 100, origin: { y: 0.5 } });
             }
         }
 
         const unitData = {
             "4": {
-                name: "Going on Safari",
-                icon: "🦁",
+                name: "Going on Safari", icon: "🦁",
                 sentences: [
                     { en: "I am going on safari.", ko: "나는 사파리 여행을 가고 있어요." },
                     { en: "A monkey swings in the jungle.", ko: "원숭이가 정글에서 그네를 타요." },
@@ -266,16 +263,16 @@
                     { en: "Snap! It chases me.", ko: "딱! 그것이 나를 쫓아와요." }
                 ],
                 words: [
-                    { word: "monkey", hintImage: "🐵" },
-                    { word: "swing", hintImage: "🌲" },
-                    { word: "chase", hintImage: "🏃" },
-                    { word: "giraffe", hintImage: "🦒" },
-                    { word: "walk", hintImage: "🚶" },
-                    { word: "snake", hintImage: "🐍" },
-                    { word: "slither", hintImage: "〰️" },
-                    { word: "crocodile", hintImage: "🐊" },
-                    { word: "swim", hintImage: "🌊" },
-                    { word: "safari", hintImage: "🚙" }
+                    { word: "monkey", missingIdx: 3, hintImage: "🐵" },
+                    { word: "swing", missingIdx: 2, hintImage: "🌲" },
+                    { word: "chase", missingIdx: 2, hintImage: "🏃" },
+                    { word: "giraffe", missingIdx: 3, hintImage: "🦒" },
+                    { word: "walk", missingIdx: 2, hintImage: "🚶" },
+                    { word: "snake", missingIdx: 2, hintImage: "🐍" },
+                    { word: "slither", missingIdx: 3, hintImage: "〰️" },
+                    { word: "crocodile", missingIdx: 4, hintImage: "🐊" },
+                    { word: "swim", missingIdx: 2, hintImage: "🌊" },
+                    { word: "safari", missingIdx: 2, hintImage: "🚙" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["going", "I", "am", "on", "safari."], correct: ["I", "am", "going", "on", "safari."] },
@@ -292,8 +289,7 @@
                 ]
             },
             "5": {
-                name: "The Pet Show",
-                icon: "🐶",
+                name: "The Pet Show", icon: "🐶",
                 sentences: [
                     { en: "Today is the pet show.", ko: "오늘 은 펫 쇼 날이에요." },
                     { en: "Here comes Henry's dog.", ko: "헨리의 강아지가 와요." },
@@ -308,23 +304,23 @@
                     { en: "It just looks at me!", ko: "그냥 나를 바라봐요!" }
                 ],
                 words: [
-                    { word: "today", hintImage: "📅" },
-                    { word: "show", hintImage: "🎪" },
-                    { word: "henry", hintImage: "👦" },
-                    { word: "dog", hintImage: "🐶" },
-                    { word: "bark", hintImage: "🐕" },
-                    { word: "tina", hintImage: "👧" },
-                    { word: "cat", hintImage: "🐱" },
-                    { word: "meow", hintImage: "🐈" },
-                    { word: "kevin", hintImage: "👦" },
-                    { word: "bird", hintImage: "🐦" },
-                    { word: "chirp", hintImage: "🎵" },
-                    { word: "alex", hintImage: "👦" },
-                    { word: "snake", hintImage: "🐍" },
-                    { word: "hiss", hintImage: "〰️" },
-                    { word: "pam", hintImage: "👧" },
-                    { word: "fish", hintImage: "🐠" },
-                    { word: "look", hintImage: "👀" }
+                    { word: "today", missingIdx: 2, hintImage: "📅" },
+                    { word: "show", missingIdx: 2, hintImage: "🎪" },
+                    { word: "henry", missingIdx: 3, hintImage: "👦" },
+                    { word: "dog", missingIdx: 1, hintImage: "🐶" },
+                    { word: "bark", missingIdx: 2, hintImage: "🐕" },
+                    { word: "tina", missingIdx: 2, hintImage: "👧" },
+                    { word: "cat", missingIdx: 1, hintImage: "🐱" },
+                    { word: "meow", missingIdx: 2, hintImage: "🐈" },
+                    { word: "kevin", missingIdx: 3, hintImage: "👦" },
+                    { word: "bird", missingIdx: 2, hintImage: "🐦" },
+                    { word: "chirp", missingIdx: 3, hintImage: "🎵" },
+                    { word: "alex", missingIdx: 2, hintImage: "👦" },
+                    { word: "snake", missingIdx: 2, hintImage: "🐍" },
+                    { word: "hiss", missingIdx: 1, hintImage: "〰️" },
+                    { word: "pam", missingIdx: 1, hintImage: "👧" },
+                    { word: "fish", missingIdx: 2, hintImage: "🐠" },
+                    { word: "look", missingIdx: 2, hintImage: "👀" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["is", "Today", "the", "pet", "show."], correct: ["Today", "is", "the", "pet", "show."] },
@@ -334,16 +330,14 @@
                     { scrambled: ["just", "It", "at", "looks", "me!"], correct: ["It", "just", "looks", "me!"] }
                 ],
                 quiz: [
-                    { q: "What event is taking place today in the story?", img: "🎪", options: ["the pet show", "the art show"], answer: "the pet show" },
-                    { q: "Whose dog comes first in the pet show?", img: "🐶", options: ["Henry's dog", "Kevin's dog"], answer: "Henry's dog" },
-                    { q: "What does Tina's cat do when it comes?", img: "🐱", options: ["It meows at me.", "It barks at me."], answer: "It meows at me." },
-                    { q: "What does Alex's snake do?", img: "🐍", options: ["It hisses at me.", "It chirps at me."], answer: "It hisses at me." },
-                    { q: "What does Pam's fish do?", img: "🐠", options: ["It just looks at me!", "It meows at me."], answer: "It just looks at me!" }
+                    { q: "Henry's dog ________ at me.", img: "🐶", options: ["barks", "meows"], answer: "barks" },
+                    { q: "Kevin's ________ chirps at me.", img: "🐦", options: ["bird", "cat"], answer: "bird" },
+                    { q: "Alex's snake hisses at me.", img: "🐍", options: ["Yes", "No"], answer: "Yes" },
+                    { q: "Pam's fish just looks at me!", img: "🐠", options: ["Yes", "No"], answer: "Yes" }
                 ]
             },
             "6": {
-                name: "Busy Animals",
-                icon: "🐿️",
+                name: "Busy Animals", icon: "🐿️",
                 sentences: [
                     { en: "Animals are busy in the fall.", ko: "가을에는 동물들이 바빠요." },
                     { en: "They are getting ready for winter.", ko: "그들은 겨울을 준비해요." },
@@ -356,18 +350,18 @@
                     { en: "Are you busy in the fall too?", ko: "너도 가을에 바쁘니?" }
                 ],
                 words: [
-                    { word: "animals", hintImage: "🦊" },
-                    { word: "busy", hintImage: "🏃" },
-                    { word: "fall", hintImage: "🍁" },
-                    { word: "winter", hintImage: "❄️" },
-                    { word: "squirrels", hintImage: "🐿️" },
-                    { word: "acorns", hintImage: "🌰" },
-                    { word: "ducks", hintImage: "🦆" },
-                    { word: "fly", hintImage: "✈️" },
-                    { word: "warm", hintImage: "☀️" },
-                    { word: "places", hintImage: "🌍" },
-                    { word: "bears", hintImage: "🐻" },
-                    { word: "caves", hintImage: "🕳️" }
+                    { word: "animals", missingIdx: 3, hintImage: "🦊" },
+                    { word: "busy", missingIdx: 1, hintImage: "🏃" },
+                    { word: "fall", missingIdx: 1, hintImage: "🍁" },
+                    { word: "winter", missingIdx: 3, hintImage: "❄️" },
+                    { word: "squirrels", missingIdx: 4, hintImage: "🐿️" },
+                    { word: "acorns", missingIdx: 3, hintImage: "🌰" },
+                    { word: "ducks", missingIdx: 2, hintImage: "🦆" },
+                    { word: "fly", missingIdx: 1, hintImage: "✈️" },
+                    { word: "warm", missingIdx: 2, hintImage: "☀️" },
+                    { word: "places", missingIdx: 3, hintImage: "🌍" },
+                    { word: "bears", missingIdx: 2, hintImage: "🐻" },
+                    { word: "caves", missingIdx: 2, hintImage: "🕳️" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["in", "the", "busy", "Animals", "are", "fall."], correct: ["Animals", "are", "busy", "in", "the", "fall."] },
@@ -376,15 +370,14 @@
                     { scrambled: ["fly", "warm", "to", "They", "places."], correct: ["They", "fly", "to", "warm", "places."] }
                 ],
                 quiz: [
-                    { q: "What season are the animals busy in?", img: "🍁", options: ["fall", "summer"], answer: "fall" },
-                    { q: "What do the squirrels gather?", img: "🌰", options: ["acorns", "apples"], answer: "acorns" },
-                    { q: "Where do the ducks fly?", img: "🦆", options: ["warm places", "cold places"], answer: "warm places" },
-                    { q: "What do the bears find?", img: "🐻", options: ["caves", "trees"], answer: "caves" }
+                    { q: "Animals are ________ in the fall.", img: "🍁", options: ["busy", "slow"], answer: "busy" },
+                    { q: "The ________ gather acorns.", img: "🌰", options: ["squirrels", "bears"], answer: "squirrels" },
+                    { q: "The ducks ________ to warm places.", img: "🦆", options: ["fly", "swim"], answer: "fly" },
+                    { q: "The bears find warm ________.", img: "🐻", options: ["caves", "acorns"], answer: "caves" }
                 ]
             },
             "7": {
-                name: "What Do You Want to Be?",
-                icon: "🎤",
+                name: "What Do You Want to Be?", icon: "🎤",
                 sentences: [
                     { en: "What do you want to be, Julia?", ko: "줄리아, 너는 어떤 사람이 되고 싶니?" },
                     { en: "I want to be many things.", ko: "나는 여러 가지가 되고 싶어." },
@@ -395,12 +388,12 @@
                     { en: "Which one is best for me?", ko: "어떤 것이 나에게 가장 좋을까?" }
                 ],
                 words: [
-                    { word: "singer", hintImage: "🎤" },
-                    { word: "dancer", hintImage: "💃" },
-                    { word: "doctor", hintImage: "🩺" },
-                    { word: "pilot", hintImage: "✈️" },
-                    { word: "best", hintImage: "⭐" },
-                    { word: "things", hintImage: "🎁" }
+                    { word: "singer", missingIdx: 3, hintImage: "🎤" },
+                    { word: "dancer", missingIdx: 3, hintImage: "💃" },
+                    { word: "doctor", missingIdx: 3, hintImage: "🩺" },
+                    { word: "pilot", missingIdx: 2, hintImage: "✈️" },
+                    { word: "best", missingIdx: 2, hintImage: "⭐" },
+                    { word: "things", missingIdx: 3, hintImage: "🎁" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["Julia,", "you", "to", "do", "What", "want", "be?"], correct: ["What", "do", "you", "want", "to", "be,", "Julia?"] },
@@ -409,15 +402,14 @@
                     { scrambled: ["best", "Which", "one", "is", "for", "me?"], correct: ["Which", "one", "is", "best", "for", "me?"] }
                 ],
                 quiz: [
-                    { q: "Who is talking about dream jobs?", img: "👧", options: ["Julia", "Henry"], answer: "Julia" },
-                    { q: "Does Julia want to be a singer?", img: "🎤", options: ["Yes", "No"], answer: "Yes" },
-                    { q: "Does Julia want to be a doctor?", img: "🩺", options: ["Yes", "No"], answer: "Yes" },
-                    { q: "What does Julia want to be?", img: "⭐", options: ["many things", "nothing"], answer: "many things" }
+                    { q: "What is Julia talking about?", img: "👧", options: ["her dream jobs", "her friends"], answer: "her dream jobs" },
+                    { q: "What does Julia NOT want to be?", img: "🍳", options: ["a cook", "a singer"], answer: "a cook" },
+                    { q: "Julia wants to be many things.", img: "⭐", options: ["Yes", "No"], answer: "Yes" },
+                    { q: "Julia thinks a doctor is the best job.", img: "🩺", options: ["No", "Yes"], answer: "No" }
                 ]
             },
             "8": {
-                name: "Dancing with the Leaves",
-                icon: "🍁",
+                name: "Dancing with the Leaves", icon: "🍁",
                 sentences: [
                     { en: "We like fall.", ko: "우리는 가을을 좋아해요." },
                     { en: "We can see colorful leaves.", ko: "우리는 알록달록한 나뭇잎을 볼 수 있어요." },
@@ -431,12 +423,12 @@
                     { en: "Whee!", ko: "와우!" }
                 ],
                 words: [
-                    { word: "leaf", hintImage: "🍃" },
-                    { word: "gold", hintImage: "✨" },
-                    { word: "brown", hintImage: "🟫" },
-                    { word: "wind", hintImage: "💨" },
-                    { word: "dance", hintImage: "💃" },
-                    { word: "orange", hintImage: "🍊" }
+                    { word: "leaf", missingIdx: 2, hintImage: "🍃" },
+                    { word: "gold", missingIdx: 2, hintImage: "✨" },
+                    { word: "brown", missingIdx: 3, hintImage: "🟫" },
+                    { word: "wind", missingIdx: 1, hintImage: "💨" },
+                    { word: "dance", missingIdx: 3, hintImage: "💃" },
+                    { word: "orange", missingIdx: 3, hintImage: "🍊" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["like", "We", "fall."], correct: ["We", "like", "fall."] },
@@ -445,15 +437,14 @@
                     { scrambled: ["dance", "wind.", "The", "leaves", "with", "the"], correct: ["The", "leaves", "dance", "with", "the", "wind."] }
                 ],
                 quiz: [
-                    { q: "What season do we like?", img: "🍁", options: ["fall", "spring"], answer: "fall" },
-                    { q: "What color leaves does the tree have in the text?", img: "🍂", options: ["red and gold", "pink and blue"], answer: "red and gold" },
-                    { q: "What blows in the story?", img: "💨", options: ["wind", "rain"], answer: "wind" },
-                    { q: "Who dances with the wind?", img: "🍃", options: ["The leaves", "The rocks"], answer: "The leaves" }
+                    { q: "We can see colorful ________.", img: "🍂", options: ["leaves", "flowers"], answer: "leaves" },
+                    { q: "This tree has ________ leaves.", img: "🟫", options: ["brown", "green"], answer: "brown" },
+                    { q: "The wind blows.", img: "💨", options: ["Yes", "No"], answer: "Yes" },
+                    { q: "We dance with the leaves.", img: "🍃", options: ["Yes", "No"], answer: "Yes" }
                 ]
             },
             "9": {
-                name: "Blink! Blink! Fireflies!",
-                icon: "✨",
+                name: "Blink! Blink! Fireflies!", icon: "✨",
                 sentences: [
                     { en: "Do you like fireflies?", ko: "반딧불이를 좋아하나요?" },
                     { en: "I can see fireflies in the field.", ko: "들판에서 반딧불이가 보여요." },
@@ -462,12 +453,12 @@
                     { en: "Look at the wonderful stars above.", ko: "저 위에 놀라운 별들을 봐." }
                 ],
                 words: [
-                    { word: "firefly", hintImage: "🐛" },
-                    { word: "field", hintImage: "🌾" },
-                    { word: "follow", hintImage: "👣" },
-                    { word: "river", hintImage: "🌊" },
-                    { word: "sky", hintImage: "🌤️" },
-                    { word: "blink", hintImage: "💡" }
+                    { word: "firefly", missingIdx: 4, hintImage: "🐛" },
+                    { word: "field", missingIdx: 2, hintImage: "🌾" },
+                    { word: "follow", missingIdx: 3, hintImage: "👣" },
+                    { word: "river", missingIdx: 2, hintImage: "🌊" },
+                    { word: "sky", missingIdx: 1, hintImage: "🌤️" },
+                    { word: "blink", missingIdx: 2, hintImage: "💡" }
                 ],
                 sentencesForOrder: [
                     { scrambled: ["like", "you", "Do", "fireflies?"], correct: ["Do", "you", "like", "fireflies?"] },
@@ -494,6 +485,7 @@
         let currentIndex = 0;
         let timerInterval = null;
         let currentTimerSeconds = 0;
+        let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
         function startParty() {
             const nameInput = document.getElementById('studentNameInput').value.trim();
@@ -503,31 +495,39 @@
             }
             state.studentName = nameInput;
             state.selectedUnit = document.getElementById('unitSelect').value;
-
             playSound('party');
-
+            
             document.getElementById('displayStudentInfo').innerText = `👤 ${state.studentName}`;
             document.getElementById('userInfoBadge').classList.remove('hidden');
             document.getElementById('loginView').classList.add('hidden');
             document.getElementById('dashboardView').classList.remove('hidden');
-
             updateDashboardUI();
         }
 
         function updateDashboardUI() {
             const unit = unitData[state.selectedUnit];
-            document.getElementById('currentUnitTitle').innerText = `Unit ${state.selectedUnit}`;
-            document.getElementById('currentUnitName').innerText = unit.name;
-            document.getElementById('unitBadgeIcon').innerText = unit.icon;
-            document.getElementById('dashboardPoints').innerText = state.points;
-            document.getElementById('headerPoints').innerText = state.points;
+            
+            // Fix: Apply the innerText safely matching our HTML IDs
+            const currentUnitTitleEl = document.getElementById('currentUnitTitle');
+            if(currentUnitTitleEl) currentUnitTitleEl.innerText = `Unit ${state.selectedUnit}`;
+            
+            const currentUnitNameEl = document.getElementById('currentUnitName');
+            if(currentUnitNameEl) currentUnitNameEl.innerText = unit.name;
+            
+            const unitBadgeIconEl = document.getElementById('unitBadgeIcon');
+            if(unitBadgeIconEl) unitBadgeIconEl.innerText = unit.icon;
+            
+            const dashboardPointsEl = document.getElementById('dashboardPoints');
+            if(dashboardPointsEl) dashboardPointsEl.innerText = state.points;
+            
+            const headerPointsEl = document.getElementById('headerPoints');
+            if(headerPointsEl) headerPointsEl.innerText = state.points;
         }
 
         function launchActivity(type) {
             document.getElementById('dashboardView').classList.add('hidden');
             document.getElementById('activityArena').classList.remove('hidden');
             document.getElementById('arenaScore').innerText = state.points;
-
             const unit = unitData[state.selectedUnit];
 
             if (type === 'listenRepeat') {
@@ -542,37 +542,8 @@
                 currentIndex = 0;
                 loadSentenceOrderQuestion();
             } else if (type === 'quiz') {
-                let dynamicQuiz = [...unit.quiz];
-                
-                function getWrongWord(correct, wordsArray) {
-                    let filtered = wordsArray.filter(w => w.word !== correct);
-                    return filtered.length > 0 ? filtered[Math.floor(Math.random() * filtered.length)].word : "apple";
-                }
-                function getWrongSentence(correctKo, sentencesArray) {
-                    let filtered = sentencesArray.filter(s => s.ko !== correctKo);
-                    return filtered.length > 0 ? filtered[Math.floor(Math.random() * filtered.length)].ko : "다른 뜻입니다.";
-                }
-
-                unit.words.forEach(w => {
-                    dynamicQuiz.push({
-                        q: "이 그림에 알맞은 영어 단어는 무엇일까요?",
-                        img: w.hintImage,
-                        options: [w.word, getWrongWord(w.word, unit.words)],
-                        answer: w.word
-                    });
-                });
-
-                unit.sentences.forEach(s => {
-                    dynamicQuiz.push({
-                        q: `다음 문장의 뜻은 무엇일까요?\n"${s.en}"`,
-                        img: "📝",
-                        options: [s.ko, getWrongSentence(s.ko, unit.sentences)],
-                        answer: s.ko
-                    });
-                });
-
-                dynamicQuiz.sort(() => 0.5 - Math.random());
-                activeQueue = dynamicQuiz.slice(0, 6);
+                const count = state.selectedUnit === "5" ? unit.quiz.length : Math.min(6, unit.quiz.length);
+                activeQueue = [...unit.quiz].sort(() => 0.5 - Math.random()).slice(0, count);
                 currentIndex = 0;
                 loadQuizQuestion();
             }
@@ -595,97 +566,155 @@
                 <div class="text-center mb-6">
                     <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">🗣️ 말하기 놀이 (보너스 포인트)</span>
                     <h3 class="text-2xl font-bold text-slate-800 mt-2">본문 전체 원어민 발음을 듣고 마이크에 대고 따라 외쳐봐요! (${unit.sentences.length}개 문장)</h3>
+                    <p class="text-rose-500 font-bold text-sm mt-2">※ 먼저 원어민 발음을 들어야 마이크로 말할 수 있어요!</p>
                 </div>
                 <div class="space-y-4 max-w-2xl mx-auto">
             `;
 
-            unit.sentences.forEach((s) => {
+            unit.sentences.forEach((s, idx) => {
+                const cleanText = s.en.replace(/[.,?!'"]/g, '').toLowerCase().trim();
                 html += `
                     <div class="bg-emerald-50 border-3 border-emerald-200 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 card-shadow">
-                        <div class="text-left">
+                        <div class="text-left w-full sm:w-auto">
                             <div class="text-lg font-bold text-emerald-900">${s.en}</div>
                             <div class="text-sm text-emerald-600">${s.ko}</div>
+                            <div id="speechResult_${idx}" class="text-xs font-bold mt-1 h-4"></div>
                         </div>
                         <div class="flex gap-2 w-full sm:w-auto">
-                            <button onclick="speakSentence('${s.en.replace(/'/g, "\\'")}')" class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow flex items-center justify-center gap-1 transition">
+                            <button id="listenBtn_${idx}" onclick="speakSentence('${s.en.replace(/'/g, "\\'")}', ${idx})" class="flex-1 sm:flex-none bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow flex items-center justify-center gap-1 transition">
                                 🔊 원어민 듣기
                             </button>
-                            <button onclick="recordAndReward(this)" class="flex-1 sm:flex-none bg-amber-500 hover:bg-amber-600 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow flex items-center justify-center gap-1 transition">
-                                🎤 마이크로 말하기 (+30점)
+                            <button id="micBtn_${idx}" onclick="startSpeechRecognition('${cleanText}', ${idx})" class="flex-1 sm:flex-none bg-slate-400 text-white font-bold px-4 py-2.5 rounded-xl text-sm shadow flex items-center justify-center gap-1 transition cursor-not-allowed opacity-50" disabled>
+                                🎤 마이크로 말하기 (+50점)
                             </button>
                         </div>
                     </div>
                 `;
             });
 
-            html += `</div>`;
+            html += `</div>
+                <div class="text-center mt-6">
+                    <button onclick="checkListenComplete()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold px-6 py-2 rounded-xl text-sm transition">대기실로 돌아가기 (다 한 사람만)</button>
+                </div>
+            `;
             area.innerHTML = html;
         }
 
-        function speakSentence(text) {
-            // 경고창 코드를 완전히 제거하고 모바일 브라우저/카카오톡 인앱창에서 안전하게 실행되도록 수정
-            try {
-                if ('speechSynthesis' in window) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = 'en-US';
-                    utterance.rate = 0.85;
-                    window.speechSynthesis.speak(utterance);
+        function speakSentence(text, idx) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+                
+                const micBtn = document.getElementById(`micBtn_${idx}`);
+                if (micBtn && !micBtn.classList.contains('bg-emerald-600')) {
+                    micBtn.disabled = false;
+                    micBtn.classList.remove('bg-slate-400', 'cursor-not-allowed', 'opacity-50');
+                    micBtn.classList.add('bg-amber-500', 'hover:bg-amber-600');
                 }
-            } catch (e) {
-                console.log("음성 출력 예외 발생 무시:", e);
+            } else {
+                alert("음성 출력을 지원하지 않는 브라우저입니다.");
             }
         }
 
-        function recordAndReward(btn) {
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            
+        function startSpeechRecognition(targetText, idx) {
             if (!SpeechRecognition) {
-                playSound('correct');
-                btn.innerText = "✨ 완료! +30점!";
-                btn.classList.replace('bg-amber-500', 'bg-emerald-600');
-                state.points += 30;
-                document.getElementById('arenaScore').innerText = state.points;
-                state.completedActivities.add('listenRepeat');
+                alert("마이크 인식을 지원하지 않는 브라우저입니다. 최신 크롬 브라우저를 이용해주세요.");
                 return;
+            }
+
+            const btn = document.getElementById(`micBtn_${idx}`);
+            const resultDiv = document.getElementById(`speechResult_${idx}`);
+            
+            if (btn.classList.contains('bg-emerald-600')) {
+                return; // Already completed
             }
 
             const recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
             recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
 
-            btn.innerText = "🎙️ 듣고 있어요... 말해주세요!";
-            btn.classList.replace('bg-amber-500', 'bg-rose-500');
+            btn.innerText = "🎙️ 듣고 있어요...";
+            btn.classList.add('mic-active');
+            
+            resultDiv.innerText = "";
+            resultDiv.className = "text-xs font-bold mt-1 h-4"; 
 
-            try {
-                recognition.start();
-            } catch (err) {
-                playSound('correct');
-                btn.innerText = "✨ 완료! +30점!";
-                btn.classList.replace('bg-rose-500', 'bg-emerald-600');
-                state.points += 30;
-                document.getElementById('arenaScore').innerText = state.points;
-                state.completedActivities.add('listenRepeat');
-                return;
-            }
+            recognition.start();
 
-            recognition.onresult = function(event) {
-                playSound('correct');
-                btn.innerText = "✨ 최고예요! +30점!";
-                btn.classList.replace('bg-rose-500', 'bg-emerald-600');
-                state.points += 30;
-                document.getElementById('arenaScore').innerText = state.points;
-                state.completedActivities.add('listenRepeat');
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript.toLowerCase().replace(/[.,?!'"]/g, '').trim();
+                
+                const targetWords = targetText.split(/\s+/);
+                const spokenWords = speechResult.split(/\s+/);
+                let matchCount = 0;
+                
+                targetWords.forEach(tw => {
+                    if (tw.length > 2) {
+                        const isMatch = spokenWords.some(sw => {
+                           return sw === tw || sw.includes(tw) || tw.includes(sw) || (sw.length >= 3 && sw.substring(0,3) === tw.substring(0,3));
+                        });
+                        if (isMatch) matchCount++;
+                    }
+                });
+                
+                const meaningfulTargetCount = targetWords.filter(w => w.length > 2).length;
+                
+                let isPass = false;
+                if (meaningfulTargetCount <= 1) {
+                    isPass = speechResult.includes(targetText) || targetText.includes(speechResult);
+                } else {
+                    const matchRate = matchCount / meaningfulTargetCount;
+                    isPass = matchRate >= 0.4 || speechResult === targetText;
+                }
+
+                if (isPass) {
+                    playSound('correct');
+                    btn.innerText = "✨ 확인 완료! +50점!";
+                    btn.classList.remove('mic-active');
+                    btn.classList.replace('bg-amber-500', 'bg-emerald-600');
+                    btn.classList.replace('hover:bg-amber-600', 'hover:bg-emerald-700');
+                    
+                    resultDiv.innerText = `참 잘했어요! 훌륭합니다 👏`;
+                    resultDiv.classList.add('text-emerald-600');
+
+                    state.points += 50; // Requested change to 50 points
+                    document.getElementById('arenaScore').innerText = state.points;
+                } else {
+                    playSound('wrong');
+                    btn.innerText = "🎤 다시 말하기";
+                    btn.classList.remove('mic-active');
+                    
+                    resultDiv.innerText = `거의 다 왔어요! 조금만 더 또렷하게 말해볼까요? 💪`;
+                    resultDiv.classList.add('text-amber-500');
+                }
             };
 
-            recognition.onerror = function(event) {
-                playSound('correct');
-                btn.innerText = "✨ 확인 완료! +30점!";
-                btn.classList.replace('bg-rose-500', 'bg-emerald-600');
-                state.points += 30;
-                document.getElementById('arenaScore').innerText = state.points;
-                state.completedActivities.add('listenRepeat');
+            recognition.onspeechend = () => {
+                recognition.stop();
+                btn.classList.remove('mic-active');
+                if (btn.innerText === "🎙️ 듣고 있어요...") {
+                     btn.innerText = "🎤 다시 말하기";
+                }
             };
+
+            recognition.onerror = (event) => {
+                btn.classList.remove('mic-active');
+                btn.innerText = "🎤 다시 말하기";
+                if(event.error === 'not-allowed') {
+                    alert("마이크 사용 권한이 차단되었습니다. 브라우저 설정에서 마이크를 허용해주세요.");
+                } else {
+                    resultDiv.innerText = "목소리가 잘 안 들렸어요. 다시 버튼을 눌러주세요! 🗣️";
+                    resultDiv.classList.add('text-amber-500');
+                }
+            };
+        }
+
+        function checkListenComplete() {
+            state.completedActivities.add('listenRepeat');
+            backToDashboard();
         }
 
         function loadSpellingQuestion() {
@@ -696,6 +725,7 @@
                     <div class="text-center py-10 space-y-4">
                         <div class="text-6xl bouncing">🧩🎉</div>
                         <h3 class="text-2xl font-bold text-slate-800">스펠링 쏙쏙 파티 클리어! (${activeQueue.length}문제 완료)</h3>
+                        <p class="text-slate-600">대단해요! 막강한 포인트를 획득했어요!</p>
                         <button onclick="backToDashboard()" class="bg-amber-400 hover:bg-amber-500 text-white font-bold px-6 py-3 rounded-2xl shadow-lg transition">파티 대기실로 가기</button>
                     </div>
                 `;
@@ -705,7 +735,7 @@
 
             const item = activeQueue[currentIndex];
             const word = item.word;
-            const missingIdx = Math.floor(Math.random() * word.length);
+            const missingIdx = item.missingIdx;
             const missingChar = word[missingIdx];
 
             let displayWordArr = word.split('');
@@ -735,6 +765,7 @@
                     <span class="bg-orange-100 text-orange-800 text-xs font-bold px-3 py-1 rounded-full">🧩 빠진 글자 맞추기 (${currentIndex + 1}/${activeQueue.length}) - 10초</span>
                     <div class="text-7xl py-4 bg-orange-50 rounded-3xl border-3 border-orange-200 inline-block px-8 card-shadow bouncing">${item.hintImage}</div>
                     <div class="text-4xl font-extrabold tracking-widest text-slate-800 bg-slate-100 py-4 rounded-2xl border border-slate-200">${displayWordStr}</div>
+                    <p class="text-sm text-slate-500">빈칸에 쏙 들어갈 알파벳은 무엇일까요?</p>
                     <div class="grid grid-cols-3 gap-4">
                         ${options.map(char => `
                             <button onclick="checkSpelling('${char}', '${missingChar}')" class="bg-orange-500 hover:bg-orange-600 text-white font-extrabold text-2xl py-4 rounded-2xl shadow-md transform transition active:scale-95">
@@ -752,6 +783,7 @@
                 playSound('correct');
                 state.points += 50;
                 document.getElementById('arenaScore').innerText = state.points;
+                alert("정답입니다! +50점! ✨");
             } else {
                 playSound('wrong');
                 alert(`아쉽네요! 정답은 '${correct.toUpperCase()}' 였습니다.`);
@@ -778,10 +810,6 @@
             const item = activeQueue[currentIndex];
             let currentSelected = [];
             let pool = [...item.scrambled];
-            const unit = unitData[state.selectedUnit];
-            
-            const originalSentence = unit.sentences.find(s => s.en.replace(/[.,!?]/g, '') === item.correct.join(' ').replace(/[.,!?]/g, ''));
-            const koText = originalSentence ? originalSentence.ko : "문장을 바르게 배열해 보세요!";
 
             const area = document.getElementById('activityContentArea');
             document.getElementById('arenaTimerBox').classList.remove('hidden');
@@ -795,9 +823,8 @@
                 area.innerHTML = `
                     <div class="text-center max-w-lg mx-auto space-y-6">
                         <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full">🎯 문장 조립 파티 (${currentIndex + 1}/${activeQueue.length}) - 30초</span>
-                        <div class="bg-indigo-100 text-indigo-900 font-extrabold text-xl py-3 px-6 rounded-2xl border-2 border-indigo-200">
-                            🇰🇷 ${koText}
-                        </div>
+                        <div class="text-slate-600 font-bold">아래 단어 조각을 눌러 바른 순서로 배치하세요!</div>
+                        
                         <div class="min-h-[75px] bg-indigo-50 border-3 border-dashed border-indigo-300 rounded-2xl p-4 flex flex-wrap gap-2 items-center justify-center">
                             ${currentSelected.length === 0 ? '<span class="text-slate-400 text-sm">여기를 클릭하여 단어를 채워보세요</span>' : ''}
                             ${currentSelected.map((item, idx) => `
@@ -806,6 +833,7 @@
                                 </button>
                             `).join('')}
                         </div>
+
                         <div class="flex flex-wrap gap-3 justify-center pt-2">
                             ${pool.map((word, idx) => `
                                 <button id="pool-btn-${idx}" onclick="window.pick(${idx})" class="bg-white border-3 border-indigo-200 hover:border-indigo-400 text-indigo-800 px-5 py-3 rounded-2xl font-bold text-lg shadow-sm transition transform active:scale-95">
@@ -813,6 +841,7 @@
                                 </button>
                             `).join('')}
                         </div>
+
                         <button onclick="window.checkOrder()" class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-extrabold py-3.5 rounded-2xl shadow-lg text-lg mt-4 transition">
                             정답 확인하기 ✨
                         </button>
@@ -841,6 +870,7 @@
                     playSound('correct');
                     state.points += 80;
                     document.getElementById('arenaScore').innerText = state.points;
+                    alert("정답입니다! 보너스 포인트 +80점! 🎉");
                 } else {
                     playSound('wrong');
                     alert(`아쉽네요! 정답: ${item.correct.join(' ')}`);
@@ -848,6 +878,7 @@
                 currentIndex++;
                 loadSentenceOrderQuestion();
             };
+
             updateUI();
         }
 
@@ -870,17 +901,14 @@
             const area = document.getElementById('activityContentArea');
             document.getElementById('arenaTimerBox').classList.add('hidden');
 
-            let options = [...qItem.options];
-            options.sort(() => Math.random() - 0.5);
-
             area.innerHTML = `
                 <div class="text-center max-w-md mx-auto space-y-6">
                     <span class="bg-purple-100 text-purple-800 text-xs font-bold px-3 py-1 rounded-full">🎨 그림 퀴즈 파티 (${currentIndex + 1}/${activeQueue.length})</span>
                     <div class="text-7xl py-4 bg-purple-50 rounded-3xl border-3 border-purple-200 inline-block px-8 card-shadow bouncing">${qItem.img}</div>
-                    <h3 class="text-xl font-bold text-slate-800 whitespace-pre-line">${qItem.q}</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        ${options.map(opt => `
-                            <button onclick="checkQuizAnswer('${opt}', '${qItem.answer}')" class="bg-purple-500 hover:bg-purple-600 text-white font-extrabold text-lg sm:text-xl py-4 px-2 rounded-2xl shadow-md transform transition active:scale-95 leading-tight">
+                    <h3 class="text-xl font-bold text-slate-800">${qItem.q}</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        ${qItem.options.map(opt => `
+                            <button onclick="checkQuizAnswer('${opt}', '${qItem.answer}')" class="bg-purple-500 hover:bg-purple-600 text-white font-extrabold text-xl py-4 rounded-2xl shadow-md transform transition active:scale-95">
                                 ${opt}
                             </button>
                         `).join('')}
@@ -889,10 +917,10 @@
             `;
         }
 
-    function checkQuizAnswer(selected, correct) {
+        function checkQuizAnswer(selected, correct) {
             if (selected === correct) {
                 playSound('correct');
-                state.points += 40;
+                state.points += 10; // Requested change to 10 points
                 document.getElementById('arenaScore').innerText = state.points;
             } else {
                 playSound('wrong');
@@ -913,7 +941,6 @@
                 display.innerText = currentTimerSeconds;
                 if (currentTimerSeconds <= 0) {
                     clearInterval(timerInterval);
-                    alert("시간이 초과되었습니다! 다음 문제로 넘어갑니다.");
                     onTimeout();
                 }
             }, 1000);
@@ -925,30 +952,32 @@
             document.getElementById('completeView').classList.remove('hidden');
             document.getElementById('finalScoreDisplay').innerText = state.points;
 
-            const data = {
+            submitToGoogleSheet({
                 timestamp: new Date().toLocaleString(),
                 studentName: state.studentName,
-                unit: `Unit ${state.selectedUnit} (${unitData[state.selectedUnit].name})`,
+                unit: state.selectedUnit,
                 totalPoints: state.points,
                 completedCount: state.completedActivities.size
-            };
-
-            const scriptURL = "https://script.google.com/macros/s/AKfycbxLXPaVRyVw642TRw6RLsmk61HeIWZvlfAdcna32ecod-kTITjvSKdnJgSM0l8s3ipy/exec"; 
-            
-            fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(data)
-            })
-            .then(response => {
-                console.log("시트 전송 완료");
-            })
-            .catch(err => {
-                console.log("전송 에러:", err);
             });
+        }
+
+        function submitToGoogleSheet(data) {
+            const scriptURL = "https://script.google.com/macros/s/AKfycbyODrF3cydaKPfmA8fIgSPQX6bg6Ws4Zi6fi4u1B18D7LvQaQuBJ_UEq86vw1JqF0pOQQ/exec";
+            
+            const params = new URLSearchParams({
+                timestamp: data.timestamp,
+                studentName: data.studentName,
+                unit: data.unit,
+                totalPoints: data.totalPoints,
+                completedCount: data.completedCount
+            });
+
+            const img = new Image();
+            img.src = `${scriptURL}?${params.toString()}`;
+            img.style.display = 'none';
+            document.body.appendChild(img);
+            setTimeout(() => { document.body.removeChild(img); }, 3000);
         }
     </script>
 </body>
 </html>
-```eof
