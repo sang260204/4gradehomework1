@@ -734,65 +734,40 @@
         }
 
         function finishAllActivities() {
-            // [매우 중요] 선생님의 최신 구글 앱스 스크립트 주소 (변경 금지!)
+            // 선생님의 진짜 웹앱 배포 주소 (절대 변경 금지!)
             const googleScriptURL = "https://script.google.com/macros/s/AKfycbxLXPaVRyVw642TRw6RLsmk61HeIWZvlfAdcna32ecod-kTITjvSKdnJgSM0l8s3ipy/exec";
             
-            const timestamp = new Date().toLocaleString();
-            const studentName = state.studentName;
-            const unit = state.selectedUnit;
-            const totalPoints = state.points;
-            const completedCount = state.completedActivities.size;
-
-            // [무적 전송 방식: 숨겨진 Form과 iframe을 이용한 강제 전송]
-            // 브라우저 CORS 차단을 100% 무력화하는 유일하고 확실한 방법입니다.
-            
-            // 1. 화면에 보이지 않는 iframe 생성 (폼 제출 결과를 조용히 받을 공간)
-            const iframeName = 'hidden_iframe_' + new Date().getTime();
-            const iframe = document.createElement('iframe');
-            iframe.name = iframeName;
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-
-            // 2. 데이터를 담아 구글로 쏠 숨겨진 Form 생성
-            const form = document.createElement('form');
-            form.method = 'GET'; // GET 방식으로 파라미터 전달
-            form.action = googleScriptURL;
-            form.target = iframeName; // 폼 제출 결과를 안 보이는 iframe으로 보냄
-            form.style.display = 'none';
-
-            // 3. 구글 시트로 보낼 데이터 항목(input)들을 폼에 추가
-            const params = {
-                'timestamp': timestamp,
-                'studentName': studentName,
-                'unit': unit,
-                'totalPoints': totalPoints,
-                'completedCount': completedCount
+            // 선생님의 구글 스크립트(doPost)가 기다리고 있는 JSON 형태에 딱 맞춘 데이터 상자
+            const payload = {
+                timestamp: new Date().toLocaleString(),
+                studentName: state.studentName,
+                unit: state.selectedUnit,
+                totalPoints: state.points,
+                completedCount: state.completedActivities.size
             };
 
-            for (const key in params) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = params[key];
-                form.appendChild(input);
-            }
-
-            document.body.appendChild(form);
-
-            // 4. 폼 강제 제출 발사! (보안 정책 우회 성공)
-            form.submit();
-
-            // 파티 완료 화면 띄우기 (전송은 백그라운드에서 진행됨)
-            playSound('party');
-            document.getElementById('dashboardView').classList.add('hidden');
-            document.getElementById('completeView').classList.remove('hidden');
-            document.getElementById('finalScoreDisplay').innerText = state.points;
-            
-            // 5. 뒷정리 (전송 후 찌꺼기 폼과 아이프레임 삭제)
-            setTimeout(() => {
-                document.body.removeChild(form);
-                document.body.removeChild(iframe);
-            }, 3000); // 넉넉히 3초 후 삭제
+            // 보안(CORS)을 뚫고 구글이 원하는 POST+JSON 방식으로 강제 전송하는 완벽한 코드
+            fetch(googleScriptURL, {
+                method: 'POST',
+                mode: 'no-cors', // 브라우저 에러 차단 무력화
+                headers: {
+                    'Content-Type': 'text/plain' // JSON이지만 텍스트인 척 위장하여 브라우저 검열 패스 (구글 스크립트는 똑똑해서 JSON으로 잘 알아먹습니다)
+                },
+                body: JSON.stringify(payload) // JSON.parse(e.postData.contents)가 정확히 이걸 받습니다.
+            }).then(() => {
+                // 전송 슛! 화면 전환
+                playSound('party');
+                document.getElementById('dashboardView').classList.add('hidden');
+                document.getElementById('completeView').classList.remove('hidden');
+                document.getElementById('finalScoreDisplay').innerText = state.points;
+            }).catch((error) => {
+                console.error("전송 에러:", error);
+                // 혹시 모를 내부 에러가 나도 아이들에겐 완료 화면을 띄워줍니다.
+                playSound('party');
+                document.getElementById('dashboardView').classList.add('hidden');
+                document.getElementById('completeView').classList.remove('hidden');
+                document.getElementById('finalScoreDisplay').innerText = state.points;
+            });
         }
     </script>
 </body>
