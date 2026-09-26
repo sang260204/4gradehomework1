@@ -218,15 +218,15 @@
                     { word: "snake", hintImage: "🐍" }, { word: "crocodile", hintImage: "🐊" }
                 ],
                 sentencesForOrder: [
-                    { scrambled: ["swings", "monkey", "in", "the", "A", "jungle."], correct: ["A", "monkey", "swings", "in", "the", "jungle."] },
-                    { scrambled: ["walks", "giraffe", "in", "the", "A", "grasslands."], correct: ["A", "giraffe", "walks", "in", "the", "grasslands."] },
-                    { scrambled: ["slithers", "snake", "in", "the", "desert.", "A"], correct: ["A", "snake", "slithers", "in", "the", "desert."] }
+                    { scrambled: ["swings", "monkey", "in", "the", "A", "jungle."], correct: ["A", "monkey", "swings", "in", "the", "jungle."], ko: "원숭이가 정글에서 그네를 타요." },
+                    { scrambled: ["walks", "giraffe", "in", "the", "A", "grasslands."], correct: ["A", "giraffe", "walks", "in", "the", "grasslands."], ko: "기린이 초원을 걸어요." },
+                    { scrambled: ["slithers", "snake", "in", "the", "desert.", "A"], correct: ["A", "snake", "slithers", "in", "the", "desert."], ko: "뱀이 사막을 기어다녀요." }
                 ],
                 quiz: [
                     { q: "A ________ swings in the jungle.", img: "🐵", options: ["monkey", "snake"], answer: "monkey" },
-                    { q: "A ________ walks in the grasslands.", img: "🦒", options: ["crocodile", "giraffe"], answer: "giraffe" },
+                    { q: "A crocodile swims in the river.", img: "🐊", options: ["Yes", "No"], answer: "Yes" },
                     { q: "A ________ slithers in the desert.", img: "🐍", options: ["snake", "monkey"], answer: "snake" },
-                    { q: "A ________ swims in the river.", img: "🐊", options: ["crocodile", "giraffe"], answer: "crocodile" }
+                    { q: "A giraffe walks in the sky.", img: "🦒", options: ["Yes", "No"], answer: "No" }
                 ]
             },
             "5": {
@@ -249,11 +249,11 @@
                     { word: "monkey", hintImage: "🐵" }, { word: "jungle", hintImage: "🌴" }
                 ],
                 sentencesForOrder: [
-                    { scrambled: ["is", "Today", "the", "pet", "show."], correct: ["Today", "is", "the", "pet", "show."] },
-                    { scrambled: ["dog.", "Here", "Henry's", "comes"], correct: ["Here", "comes", "Henry's", "dog."] },
-                    { scrambled: ["at", "me.", "barks", "It"], correct: ["It", "barks", "at", "me."] },
-                    { scrambled: ["comes", "Here", "cat.", "Tina's"], correct: ["Here", "comes", "Tina's", "cat."] },
-                    { scrambled: ["just", "It", "at", "looks", "me!"], correct: ["It", "just", "looks", "at", "me!"] }
+                    { scrambled: ["is", "Today", "the", "pet", "show."], correct: ["Today", "is", "the", "pet", "show."], ko: "오늘은 펫 쇼 날이에요." },
+                    { scrambled: ["dog.", "Here", "Henry's", "comes"], correct: ["Here", "comes", "Henry's", "dog."], ko: "헨리의 강아지가 와요." },
+                    { scrambled: ["at", "me.", "barks", "It"], correct: ["It", "barks", "at", "me."], ko: "그것이 나에게 짖어요." },
+                    { scrambled: ["comes", "Here", "cat.", "Tina's"], correct: ["Here", "comes", "Tina's", "cat."], ko: "티나의 고양이가 와요." },
+                    { scrambled: ["just", "It", "at", "looks", "me!"], correct: ["It", "just", "looks", "at", "me!"], ko: "그냥 나를 바라봐요!" }
                 ],
                 quiz: [
                     { q: "Henry's dog ________ at me.", img: "🐶", options: ["barks", "meows"], answer: "barks" },
@@ -280,10 +280,10 @@
                     { word: "fly", hintImage: "🪽" }, { word: "cave", hintImage: "🪨" }
                 ],
                 sentencesForOrder: [
-                    { scrambled: ["in", "the", "busy", "Animals", "are", "fall."], correct: ["Animals", "are", "busy", "in", "the", "fall."] },
-                    { scrambled: ["ready", "getting", "for", "They", "are", "winter."], correct: ["They", "are", "getting", "ready", "for", "winter."] },
-                    { scrambled: ["gather", "They", "acorns."], correct: ["They", "gather", "acorns."] },
-                    { scrambled: ["fly", "warm", "to", "They", "places."], correct: ["They", "fly", "to", "warm", "places."] }
+                    { scrambled: ["in", "the", "busy", "Animals", "are", "fall."], correct: ["Animals", "are", "busy", "in", "the", "fall."], ko: "가을에는 동물들이 바빠요." },
+                    { scrambled: ["ready", "getting", "for", "They", "are", "winter."], correct: ["They", "are", "getting", "ready", "for", "winter."], ko: "그들은 겨울을 준비해요." },
+                    { scrambled: ["gather", "They", "acorns."], correct: ["They", "gather", "acorns."], ko: "그들은 도토리를 모아요." },
+                    { scrambled: ["fly", "warm", "to", "They", "places."], correct: ["They", "fly", "to", "warm", "places."], ko: "그들은 따뜻한 곳으로 날아가요." }
                 ],
                 quiz: [
                     { q: "Animals are ________ in the fall.", img: "🍂", options: ["slow", "busy"], answer: "busy" },
@@ -309,15 +309,15 @@
                     { word: "best", hintImage: "👍" }
                 ],
                 sentencesForOrder: [
-                    { scrambled: ["Julia,", "you", "to", "do", "What", "want", "be?"], correct: ["What", "do", "you", "want", "to", "be,", "Julia?"] },
-                    { scrambled: ["things.", "to", "be", "many", "want", "I"], correct: ["I", "want", "to", "be", "many", "things."] },
-                    { scrambled: ["want", "to", "be", "a", "I", "singer."], correct: ["I", "want", "to", "be", "a", "singer."] },
-                    { scrambled: ["best", "Which", "one", "is", "for", "me?"], correct: ["Which", "one", "is", "best", "for", "me?"] }
+                    { scrambled: ["Julia,", "you", "to", "do", "What", "want", "be?"], correct: ["What", "do", "you", "want", "to", "be,", "Julia?"], ko: "줄리아, 너는 어떤 사람이 되고 싶니?" },
+                    { scrambled: ["things.", "to", "be", "many", "want", "I"], correct: ["I", "want", "to", "be", "many", "things."], ko: "나는 여러 가지가 되고 싶어." },
+                    { scrambled: ["want", "to", "be", "a", "I", "singer."], correct: ["I", "want", "to", "be", "a", "singer."], ko: "나는 가수가 되고 싶어." },
+                    { scrambled: ["best", "Which", "one", "is", "for", "me?"], correct: ["Which", "one", "is", "best", "for", "me?"], ko: "어떤 것이 나에게 가장 좋을까?" }
                 ],
                 quiz: [
-                    { q: "What is Julia talking about?", img: "👧", options: ["a. her friends", "b. her dream jobs"], answer: "b. her dream jobs" },
-                    { q: "What does Julia NOT want to be?", img: "🍳", options: ["a. a cook", "b. a singer"], answer: "a. a cook" },
-                    { q: "Julia wants to be many things.", img: "⭐", options: ["Yes", "No"], answer: "Yes" },
+                    { q: "What is Julia talking about?", img: "👧", options: ["her friends", "her dream jobs"], answer: "her dream jobs" },
+                    { q: "What does Julia NOT want to be?", img: "👩‍🍳", options: ["a cook", "a singer"], answer: "a cook" },
+                    { q: "Julia wants to be many things.", img: "✨", options: ["Yes", "No"], answer: "Yes" },
                     { q: "Julia thinks a doctor is the best job.", img: "🩺", options: ["Yes", "No"], answer: "No" }
                 ]
             },
@@ -340,16 +340,16 @@
                     { word: "wind", hintImage: "💨" }, { word: "dance", hintImage: "💃" } 
                 ],
                 sentencesForOrder: [
-                    { scrambled: ["like", "We", "fall."], correct: ["We", "like", "fall."] },
-                    { scrambled: ["colorful", "see", "can", "We", "leaves."], correct: ["We", "can", "see", "colorful", "leaves."] },
-                    { scrambled: ["blows.", "The", "wind"], correct: ["The", "wind", "blows."] },
-                    { scrambled: ["dance", "wind.", "The", "leaves", "with", "the"], correct: ["The", "leaves", "dance", "with", "the", "wind."] }
+                    { scrambled: ["like", "We", "fall."], correct: ["We", "like", "fall."], ko: "우리는 가을을 좋아해요." },
+                    { scrambled: ["colorful", "see", "can", "We", "leaves."], correct: ["We", "can", "see", "colorful", "leaves."], ko: "우리는 알록달록한 나뭇잎을 볼 수 있어요." },
+                    { scrambled: ["blows.", "The", "wind"], correct: ["The", "wind", "blows."], ko: "바람이 불어요." },
+                    { scrambled: ["dance", "wind.", "The", "leaves", "with", "the"], correct: ["The", "leaves", "dance", "with", "the", "wind."], ko: "나뭇잎들이 바람과 함께 춤을 춰요." }
                 ],
                 quiz: [
-                    { q: "We can see colorful ________.", img: "🍂", options: ["a. flowers", "b. leaves"], answer: "b. leaves" },
-                    { q: "This tree has ________ leaves.", img: "🟫", options: ["a. brown", "b. green"], answer: "a. brown" },
+                    { q: "We can see colorful ________.", img: "🍁", options: ["flowers", "leaves"], answer: "leaves" },
+                    { q: "This tree has ________ leaves.", img: "🍂", options: ["brown", "green"], answer: "brown" },
                     { q: "The wind blows.", img: "💨", options: ["Yes", "No"], answer: "Yes" },
-                    { q: "We dance with the leaves.", img: "🍃", options: ["Yes", "No"], answer: "Yes" }
+                    { q: "We dance with the leaves.", img: "💃", options: ["Yes", "No"], answer: "Yes" }
                 ]
             },
             "9": {
@@ -367,15 +367,15 @@
                     { word: "sky", hintImage: "🌤️" }
                 ],
                 sentencesForOrder: [
-                    { scrambled: ["like", "you", "Do", "fireflies?"], correct: ["Do", "you", "like", "fireflies?"] },
-                    { scrambled: ["see", "fireflies", "can", "I", "field.", "in", "the"], correct: ["I", "can", "see", "fireflies", "in", "the", "field."] },
-                    { scrambled: ["dark", "the", "in", "They", "blink", "sky."], correct: ["They", "blink", "in", "the", "dark", "sky."] }
+                    { scrambled: ["like", "you", "Do", "fireflies?"], correct: ["Do", "you", "like", "fireflies?"], ko: "반딧불이를 좋아하나요?" },
+                    { scrambled: ["see", "fireflies", "can", "I", "field.", "in", "the"], correct: ["I", "can", "see", "fireflies", "in", "the", "field."], ko: "들판에서 반딧불이가 보여요." },
+                    { scrambled: ["dark", "the", "in", "They", "blink", "sky."], correct: ["They", "blink", "in", "the", "dark", "sky."], ko: "그들은 어두운 밤하늘에서 반짝여요." }
                 ],
                 quiz: [
-                    { q: "What can you see in the field?", img: "🌾", options: ["fireflies", "cars"], answer: "fireflies" },
-                    { q: "Where do fireflies blink?", img: "🌤️", options: ["in the box", "in the dark sky"], answer: "in the dark sky" },
-                    { q: "What should we follow near the river?", img: "🌊", options: ["the train", "the shining light"], answer: "the shining light" },
-                    { q: "What is above us in the night?", img: "⭐", options: ["fish", "stars"], answer: "stars" }
+                    { q: "I can see ________ in the field.", img: "✨", options: ["fireflies", "cars"], answer: "fireflies" },
+                    { q: "Fireflies blink in the dark night sky.", img: "🌌", options: ["Yes", "No"], answer: "Yes" },
+                    { q: "Let's follow the shining ________ near the river.", img: "💡", options: ["light", "train"], answer: "light" },
+                    { q: "Look at the wonderful stars above.", img: "⭐", options: ["Yes", "No"], answer: "Yes" }
                 ]
             }
         };
@@ -678,8 +678,15 @@
                 document.getElementById('activityContentArea').innerHTML = `
                     <div class="text-center max-w-lg mx-auto space-y-6">
                         <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full">🎯 문장 조립 파티 (+50점)</span>
+                        
+                        <!-- 추가된 문장 뜻(한글) 힌트 부분 -->
+                        <div class="bg-slate-50 border-2 border-slate-200 py-3 px-4 rounded-xl shadow-inner mt-4 mb-2">
+                            <span class="text-slate-500 text-sm font-bold block mb-1">💡 이 문장을 영어로 만들어보세요!</span>
+                            <div class="text-xl font-extrabold text-indigo-700">${item.ko}</div>
+                        </div>
+
                         <div class="min-h-[75px] bg-indigo-50 border-3 border-dashed border-indigo-300 rounded-2xl p-4 flex flex-wrap gap-2 items-center justify-center">
-                            ${selected.length === 0 ? '<span class="text-slate-400 text-sm">클릭하여 단어를 채워보세요</span>' : selected.map((s, i) => `<button onclick="window.unpick(${i})" class="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold shadow transform transition active:scale-95">${s.w} ✕</button>`).join('')}
+                            ${selected.length === 0 ? '<span class="text-slate-400 text-sm">아래에서 단어를 클릭하여 문장을 완성하세요</span>' : selected.map((s, i) => `<button onclick="window.unpick(${i})" class="bg-indigo-600 text-white px-4 py-2 rounded-xl font-bold shadow transform transition active:scale-95">${s.w} ✕</button>`).join('')}
                         </div>
                         <div class="flex flex-wrap gap-3 justify-center pt-2">
                             ${pool.map((w, i) => `<button id="pool-btn-${i}" onclick="window.pick(${i})" class="bg-white border-3 border-indigo-200 text-indigo-800 px-5 py-3 rounded-2xl font-bold shadow-sm transition transform active:scale-95">${w}</button>`).join('')}
